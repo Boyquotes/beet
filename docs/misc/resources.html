@@ -3,8 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Beet</title>
-        <meta name="robots" content="noindex" />
+        <title>Resources - Beet</title>
 
 
         <!-- Custom HTML head -->
@@ -13,31 +12,31 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        <link rel="icon" href="favicon.svg">
-        <link rel="shortcut icon" href="favicon.png">
-        <link rel="stylesheet" href="css/variables.css">
-        <link rel="stylesheet" href="css/general.css">
-        <link rel="stylesheet" href="css/chrome.css">
-        <link rel="stylesheet" href="css/print.css" media="print">
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        <link rel="stylesheet" href="fonts/fonts.css">
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="deps/custom.css">
+        <link rel="stylesheet" href="../deps/custom.css">
 
     </head>
     <body>
     <div id="body-container">
         <!-- Provide site root to javascript -->
         <script>
-            var path_to_root = "";
+            var path_to_root = "../";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
@@ -85,7 +84,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="overview/index.html"><strong aria-hidden="true">1.</strong> Beet</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="overview/getting-started.html"><strong aria-hidden="true">1.1.</strong> Getting Started</a></li></ol></li><li class="chapter-item expanded "><a href="ecs/index.html"><strong aria-hidden="true">2.</strong> ECS</a></li><li class="chapter-item expanded "><a href="beetmash/index.html"><strong aria-hidden="true">3.</strong> Beetmash</a></li><li class="chapter-item expanded "><a href="misc/resources.html"><strong aria-hidden="true">4.</strong> Resources</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../overview/index.html"><strong aria-hidden="true">1.</strong> Beet</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../overview/getting-started.html"><strong aria-hidden="true">1.1.</strong> Getting Started</a></li></ol></li><li class="chapter-item expanded "><a href="../ecs/index.html"><strong aria-hidden="true">2.</strong> ECS</a></li><li class="chapter-item expanded "><a href="../beetmash/index.html"><strong aria-hidden="true">3.</strong> Beetmash</a></li><li class="chapter-item expanded "><a href="../misc/resources.html" class="active"><strong aria-hidden="true">4.</strong> Resources</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -139,7 +138,7 @@
                     <h1 class="menu-title">Beet</h1>
 
                     <div class="right-buttons">
-                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
 
@@ -168,95 +167,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <div style="display:flex; justify-content:space-between">
-<h1 id="beet"><a class="header" href="#beet">Beet</a></h1>
-<span style="font-size:6em;">🌻🐝</span>
-<!-- <img src="overview/images/spotted-gum.jpg" height=200px> -->
-</div>
-<br/>
-<p>Beet is an AI behavior library for games and robotics.</p>
-<blockquote>
-<p><em>Very early stage warning:</em></p>
-<ul>
-<li>breaking changes on patch versions</li>
-<li>continued development not guaranteed</li>
-<li>docs are wip</li>
-<li>bugs ahoy</li>
-</ul>
-</blockquote>
-<div class="table-wrapper"><table><thead><tr><th>Roadmap</th><th></th></tr></thead><tbody>
-<tr><td>Behavior Trees</td><td>✅</td></tr>
-<tr><td>State Trees</td><td>🚧</td></tr>
-<tr><td>GOAP</td><td>🚧</td></tr>
-<tr><td>Machine Learning</td><td></td></tr>
-</tbody></table>
-</div>
-<h2 id="crate-structure"><a class="header" href="#crate-structure">Crate structure</a></h2>
-<pre class="mermaid">graph TB;
-    beet_ecs--&gt;beet;
-		beet_net--&gt;beet;
-</pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="getting-started"><a class="header" href="#getting-started">Getting Started</a></h1>
-<p>A fundamental concept of Beet is behavior trees. Consider the following diagram for Billy the Bee 🐝 </p>
-<pre class="mermaid">graph TB;
-    A--&gt;B;
-		A--&gt;C;
-
-A[sequence]
-B((has_energy))
-C[wander]
-</pre>
-<div style="break-before: page; page-break-before: always;"></div><p>The ECS component of Beet is a modular task switching library suitable for game AI, robotics &amp; other performance-critical environments. It is built with <code>bevy_ecs</code> which allows for parallelism and no blackboard. The primitives it provies can be used for multiple selector paradigms like Behaviour Trees, State Machines and Utility AI.</p>
-<h2 id="features"><a class="header" href="#features">Features</a></h2>
-<ul>
-<li>🐦 Powered by <code>bevy_ecs</code> and <code>petgraph</code></li>
-<li>🔥 Highly Parallel</li>
-<li>✍️ No Blackboard</li>
-<li>🌈 Multi-paradigm</li>
-<li>🌍 With or without Bevy Engine</li>
-<li>🌴 Create/edit graphs at runtime</li>
-<li>🧩 Multiple graphs per entity</li>
-</ul>
-<h2 id="overview"><a class="header" href="#overview">Overview</a></h2>
-<p>This is my third attempt at a modular AI architecture for ECS, the previous two attempts went the way of the dodo:</p>
-<ol>
-<li>Shoehorn non-ecs solutions into bevy, which sucked mostly because of blackboards. </li>
-<li>Get clever with generics and create distinct types <em>per node</em> of a graph. This allowed for an entire graph to be stored as components on a single entity but was not great for a bunch of reasons. The dealbreaker was not being able to create/edit graphs at runtime.</li>
-</ol>
-<p>I'm quite confident in this third approach, representing graphs as linked entities. </p>
-<h3 id="actions"><a class="header" href="#actions">Actions</a></h3>
-<p>Actions without children usually execute some behavior then return a <code>RunResult::Success</code> or a <code>RunResult::Failure</code>.</p>
-<p>An <code>action</code> is a bevy component struct with an associated system. Currently all actions must implement <code>Default, Clone, Component, serde::Serialize, serde::Deserialize</code>.</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>#[action(system=print_action)]
-#[derive(Default)]
-pub struct PrintAction(pub value: String);
-
-fn print_action(mut commands: Commands, query: Query&lt;(Entity,&amp;PrintAction), With&lt;Running&gt;){
-	for (entity, action) in query.iter(){
-		println!(&quot;Print Action: {}&quot;, action.0);
-		commands.entity(entity).insert(RunResult::Success);
-	}
-}
-<span class="boring">}</span></code></pre></pre>
-<h3 id="shared-actions"><a class="header" href="#shared-actions">Shared Actions</a></h3>
-<p>To solve the problem of, say every scoring system wanting a <code>Query&lt;&amp;mut Score&gt;</code> which would break parallelism, each action has a distinct component, and fields marked as <code>#[shared]</code> will be copied at the end of each tick when they change.</p>
-<p>The below action will add a <code>Score</code> component to this entity and update it whenever the <code>ScoringAction</code> changes.</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>#[action(system=scoring_action)]
-pub struct ScoringAction{
-	#[shared]
-	pub score: Score
-};
-<span class="boring">}</span></code></pre></pre>
-<p>Now we can have a utility selector that immutably queries the <code>Score</code> component of its children, allowing for full parallelism.</p>
-<h3 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h3>
-<p>Documentation is WIP, in the meantime have a look at <code>./crates/gamai/test/selectors</code> for examples of selectors and how they are used.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="beetmash"><a class="header" href="#beetmash">Beetmash</a></h1>
-<p>Beetmash a creation platform built upon <code>beet</code>.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="resources"><a class="header" href="#resources">Resources</a></h1>
+                        <h1 id="resources"><a class="header" href="#resources">Resources</a></h1>
 <p>Architecture:</p>
 <ul>
 <li>
@@ -314,6 +225,9 @@ Misc:</p>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../beetmash/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
 
 
                         <div style="clear: both"></div>
@@ -322,6 +236,9 @@ Misc:</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../beetmash/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
 
             </nav>
 
@@ -335,24 +252,19 @@ Misc:</p>
         </script>
 
 
-        <script src="elasticlunr.min.js"></script>
-        <script src="mark.min.js"></script>
-        <script src="searcher.js"></script>
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
 
-        <script src="clipboard.min.js"></script>
-        <script src="highlight.js"></script>
-        <script src="book.js"></script>
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="deps/custom.js"></script>
-        <script src="deps/mermaid.min.js"></script>
-        <script src="deps/mermaid-init.js"></script>
+        <script src="../deps/custom.js"></script>
+        <script src="../deps/mermaid.min.js"></script>
+        <script src="../deps/mermaid-init.js"></script>
 
-        <script>
-        window.addEventListener('load', function() {
-            window.setTimeout(window.print, 100);
-        });
-        </script>
 
     </div>
     </body>

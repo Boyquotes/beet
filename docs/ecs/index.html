@@ -3,8 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Beet</title>
-        <meta name="robots" content="noindex" />
+        <title>ECS - Beet</title>
 
 
         <!-- Custom HTML head -->
@@ -13,31 +12,31 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        <link rel="icon" href="favicon.svg">
-        <link rel="shortcut icon" href="favicon.png">
-        <link rel="stylesheet" href="css/variables.css">
-        <link rel="stylesheet" href="css/general.css">
-        <link rel="stylesheet" href="css/chrome.css">
-        <link rel="stylesheet" href="css/print.css" media="print">
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        <link rel="stylesheet" href="fonts/fonts.css">
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="deps/custom.css">
+        <link rel="stylesheet" href="../deps/custom.css">
 
     </head>
     <body>
     <div id="body-container">
         <!-- Provide site root to javascript -->
         <script>
-            var path_to_root = "";
+            var path_to_root = "../";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
@@ -85,7 +84,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="overview/index.html"><strong aria-hidden="true">1.</strong> Beet</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="overview/getting-started.html"><strong aria-hidden="true">1.1.</strong> Getting Started</a></li></ol></li><li class="chapter-item expanded "><a href="ecs/index.html"><strong aria-hidden="true">2.</strong> ECS</a></li><li class="chapter-item expanded "><a href="beetmash/index.html"><strong aria-hidden="true">3.</strong> Beetmash</a></li><li class="chapter-item expanded "><a href="misc/resources.html"><strong aria-hidden="true">4.</strong> Resources</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../overview/index.html"><strong aria-hidden="true">1.</strong> Beet</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../overview/getting-started.html"><strong aria-hidden="true">1.1.</strong> Getting Started</a></li></ol></li><li class="chapter-item expanded "><a href="../ecs/index.html" class="active"><strong aria-hidden="true">2.</strong> ECS</a></li><li class="chapter-item expanded "><a href="../beetmash/index.html"><strong aria-hidden="true">3.</strong> Beetmash</a></li><li class="chapter-item expanded "><a href="../misc/resources.html"><strong aria-hidden="true">4.</strong> Resources</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -139,7 +138,7 @@
                     <h1 class="menu-title">Beet</h1>
 
                     <div class="right-buttons">
-                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
 
@@ -168,45 +167,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <div style="display:flex; justify-content:space-between">
-<h1 id="beet"><a class="header" href="#beet">Beet</a></h1>
-<span style="font-size:6em;">🌻🐝</span>
-<!-- <img src="overview/images/spotted-gum.jpg" height=200px> -->
-</div>
-<br/>
-<p>Beet is an AI behavior library for games and robotics.</p>
-<blockquote>
-<p><em>Very early stage warning:</em></p>
-<ul>
-<li>breaking changes on patch versions</li>
-<li>continued development not guaranteed</li>
-<li>docs are wip</li>
-<li>bugs ahoy</li>
-</ul>
-</blockquote>
-<div class="table-wrapper"><table><thead><tr><th>Roadmap</th><th></th></tr></thead><tbody>
-<tr><td>Behavior Trees</td><td>✅</td></tr>
-<tr><td>State Trees</td><td>🚧</td></tr>
-<tr><td>GOAP</td><td>🚧</td></tr>
-<tr><td>Machine Learning</td><td></td></tr>
-</tbody></table>
-</div>
-<h2 id="crate-structure"><a class="header" href="#crate-structure">Crate structure</a></h2>
-<pre class="mermaid">graph TB;
-    beet_ecs--&gt;beet;
-		beet_net--&gt;beet;
-</pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="getting-started"><a class="header" href="#getting-started">Getting Started</a></h1>
-<p>A fundamental concept of Beet is behavior trees. Consider the following diagram for Billy the Bee 🐝 </p>
-<pre class="mermaid">graph TB;
-    A--&gt;B;
-		A--&gt;C;
-
-A[sequence]
-B((has_energy))
-C[wander]
-</pre>
-<div style="break-before: page; page-break-before: always;"></div><p>The ECS component of Beet is a modular task switching library suitable for game AI, robotics &amp; other performance-critical environments. It is built with <code>bevy_ecs</code> which allows for parallelism and no blackboard. The primitives it provies can be used for multiple selector paradigms like Behaviour Trees, State Machines and Utility AI.</p>
+                        <p>The ECS component of Beet is a modular task switching library suitable for game AI, robotics &amp; other performance-critical environments. It is built with <code>bevy_ecs</code> which allows for parallelism and no blackboard. The primitives it provies can be used for multiple selector paradigms like Behaviour Trees, State Machines and Utility AI.</p>
 <h2 id="features"><a class="header" href="#features">Features</a></h2>
 <ul>
 <li>🐦 Powered by <code>bevy_ecs</code> and <code>petgraph</code></li>
@@ -254,67 +215,18 @@ pub struct ScoringAction{
 <p>Now we can have a utility selector that immutably queries the <code>Score</code> component of its children, allowing for full parallelism.</p>
 <h3 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h3>
 <p>Documentation is WIP, in the meantime have a look at <code>./crates/gamai/test/selectors</code> for examples of selectors and how they are used.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="beetmash"><a class="header" href="#beetmash">Beetmash</a></h1>
-<p>Beetmash a creation platform built upon <code>beet</code>.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="resources"><a class="header" href="#resources">Resources</a></h1>
-<p>Architecture:</p>
-<ul>
-<li>
-<p>GDC - <a href="https://youtu.be/IvK0ZlNoxjw">Modular AI</a></p>
-</li>
-<li>
-<p>Chris Hecker - <a href="https://youtu.be/4eQp8SdzOa0">Structure Vs Style</a></p>
-<ul>
-<li><a href="https://chrishecker.com/Structure_vs_Style">blog</a></li>
-</ul>
-</li>
-<li>
-<p>Kevin Dill, Dave Mark - <a href="https://www.gdcvault.com/play/1012410/Improving-AI-Decision-Modeling-Through">Improving AI Decision Modeling Through Utility Theory</a></p>
-</li>
-<li>
-<p>Kevin Dill, Dave Mark - <a href="https://www.gdcvault.com/play/1015683/Embracing-the-Dark-Art-of">Embracing the Dark Art of Mathematical Modeling in Game AI</a></p>
-</li>
-<li>
-<p>Kevin Dill - <a href="https://www.sisostds.org/DesktopModules/Bring2mind/DMX/Download.aspx?Command=Core_Download&amp;EntryId=35466&amp;PortalId=0&amp;TabId=105">Introducing GAIA</a></p>
-</li>
-<li>
-<p>Jakob Rasmussen - <a href="https://youtu.be/jse_ZleruJU">Utility AI - Apex Game Tooks - Unite 2016</a></p>
-</li>
-<li>
-<p>Nicolas Meuleau - <a href="https://youtu.be/78nhJNPS0vA">Unity Labs - GOAP - 2017</a></p>
-<ul>
-<li>Follow-up - <a href="https://youtu.be/ZdN8dDa0ff4">2018</a></li>
-</ul>
-</li>
-</ul>
-<p>AI libraries:</p>
-<ul>
-<li>
-<p>C++ Behavior trees - <a href="https://www.behaviortree.dev/">BehaviorTree.cpp</a></p>
-</li>
-<li>
-<p>Bevy Utility AI - <a href="https://crates.io/crates/big-brain">big-brain</a>
-Misc:</p>
-</li>
-<li>
-<p>YouTube - <a href="https://www.youtube.com/watch?v=KeShMInMjro&amp;list=PLFQdM4LOGDr_vYJuo8YTRcmv3FrwczdKg">Introduction to Behaviour Trees</a></p>
-</li>
-<li>
-<p>YouTube - <a href="https://www.youtube.com/playlist?list=PLk-SPWGynZmM3jv0TCV-Shhe_ltgc7qxq">GDC Game AI Playlist</a></p>
-</li>
-</ul>
-<p>Flecs / Entity Relationships</p>
-<ul>
-<li><a href="https://github.com/SanderMertens/flecs/blob/master/examples/cpp/game_mechanics/factory/src/main.cpp">State Machine Example</a></li>
-<li><a href="https://ajmmertens.medium.com/e7971da33ac3">Games as databases</a></li>
-<li><a href="https://ajmmertens.medium.com/742de7a18e59">Why storing state machines in ecs is a bad idea</a></li>
-</ul>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../overview/getting-started.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
 
+                            <a rel="next" href="../beetmash/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -322,7 +234,13 @@ Misc:</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../overview/getting-started.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
 
+                    <a rel="next" href="../beetmash/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
             </nav>
 
         </div>
@@ -335,24 +253,19 @@ Misc:</p>
         </script>
 
 
-        <script src="elasticlunr.min.js"></script>
-        <script src="mark.min.js"></script>
-        <script src="searcher.js"></script>
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
 
-        <script src="clipboard.min.js"></script>
-        <script src="highlight.js"></script>
-        <script src="book.js"></script>
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="deps/custom.js"></script>
-        <script src="deps/mermaid.min.js"></script>
-        <script src="deps/mermaid-init.js"></script>
+        <script src="../deps/custom.js"></script>
+        <script src="../deps/mermaid.min.js"></script>
+        <script src="../deps/mermaid-init.js"></script>
 
-        <script>
-        window.addEventListener('load', function() {
-            window.setTimeout(window.print, 100);
-        });
-        </script>
 
     </div>
     </body>
