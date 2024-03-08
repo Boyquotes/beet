@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Beet - Beet</title>
+        <title>Concepts - Beet</title>
 
 
         <!-- Custom HTML head -->
@@ -12,31 +12,31 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        <link rel="icon" href="favicon.svg">
-        <link rel="shortcut icon" href="favicon.png">
-        <link rel="stylesheet" href="css/variables.css">
-        <link rel="stylesheet" href="css/general.css">
-        <link rel="stylesheet" href="css/chrome.css">
-        <link rel="stylesheet" href="css/print.css" media="print">
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        <link rel="stylesheet" href="fonts/fonts.css">
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="deps/custom.css">
+        <link rel="stylesheet" href="../deps/custom.css">
 
     </head>
     <body>
     <div id="body-container">
         <!-- Provide site root to javascript -->
         <script>
-            var path_to_root = "";
+            var path_to_root = "../";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
@@ -84,7 +84,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html" class="active"><strong aria-hidden="true">1.</strong> Beet</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tutorial/getting-started.html"><strong aria-hidden="true">1.1.</strong> Getting Started</a></li><li class="chapter-item expanded "><a href="tutorial/concepts.html"><strong aria-hidden="true">1.2.</strong> Concepts</a></li><li class="chapter-item expanded "><a href="tutorial/worked-example.html"><strong aria-hidden="true">1.3.</strong> Worked Example</a></li></ol></li><li class="chapter-item expanded "><a href="ecs/index.html"><strong aria-hidden="true">2.</strong> ECS</a></li><li class="chapter-item expanded "><a href="beetmash/index.html"><strong aria-hidden="true">3.</strong> Beetmash</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><a href="misc/roadmap.html">Roadmap</a></li><li class="chapter-item expanded affix "><a href="misc/resources.html">Resources</a></li><li class="chapter-item expanded affix "><a href="misc/contributing.html">Contributing</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> Beet</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../tutorial/getting-started.html"><strong aria-hidden="true">1.1.</strong> Getting Started</a></li><li class="chapter-item expanded "><a href="../tutorial/concepts.html" class="active"><strong aria-hidden="true">1.2.</strong> Concepts</a></li><li class="chapter-item expanded "><a href="../tutorial/worked-example.html"><strong aria-hidden="true">1.3.</strong> Worked Example</a></li></ol></li><li class="chapter-item expanded "><a href="../ecs/index.html"><strong aria-hidden="true">2.</strong> ECS</a></li><li class="chapter-item expanded "><a href="../beetmash/index.html"><strong aria-hidden="true">3.</strong> Beetmash</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><a href="../misc/roadmap.html">Roadmap</a></li><li class="chapter-item expanded affix "><a href="../misc/resources.html">Resources</a></li><li class="chapter-item expanded affix "><a href="../misc/contributing.html">Contributing</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -138,7 +138,7 @@
                     <h1 class="menu-title">Beet</h1>
 
                     <div class="right-buttons">
-                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
 
@@ -167,38 +167,112 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="beet"><a class="header" href="#beet">Beet</a></h1>
-<p>Beet, or <em>bee-tee</em>, is an AI behavior library for games and robotics built in Rust.</p>
-<blockquote>
-<p><em>Very early stage warning:</em></p>
+                        <h1 id="concepts"><a class="header" href="#concepts">Concepts</a></h1>
+<!-- keep all code references in sync with docs please -->
+<p>Every behavior tree library uses its own terminology, and this one is no different 🙃</p>
+<h2 id="actions"><a class="header" href="#actions"><code>Actions</code></a></h2>
+<p><em>aka <code>tasks</code></em></p>
+<p>Actions are something to be performed for a given node, in beet this a combination of a <code>Component</code>, the data required for the task, and a <code>System</code>, the accompanying logic for that task. They usually either get an agent to do something or send information to their parent.</p>
+<p>Here are some examples of actions:</p>
 <ul>
-<li>breaking changes on patch versions</li>
-<li>continued development not guaranteed</li>
-<li>docs are wip</li>
-<li>bugs ahoy</li>
+<li><code>SucceedInDuration</code>
+<ul>
+<li>After a given duration, will set <code>RunResult</code> to <code>RunResult::Successs</code></li>
 </ul>
-</blockquote>
-<h2 id="features"><a class="header" href="#features">Features</a></h2>
-<h3 id="-fast"><a class="header" href="#-fast">🔥 Fast</a></h3>
-<p>All actions are run in parallel thanks to the spectacular <code>bevy_ecs</code> scheduler.</p>
-<h3 id="-modular"><a class="header" href="#-modular">🌳 Modular</a></h3>
-<p>Like the ECS model, each node (entity) is simply a list of actions (components). Action Graphs can be composed of other graphs, allowing for epic composability. </p>
-<blockquote>
-<p>All examples in these docs are <strong>trees</strong>, ie non-cyclic directed graphs. This is not a techical limitation, but a choice to encourage modularity.</p>
-</blockquote>
-<h3 id="-multi-paradigm"><a class="header" href="#-multi-paradigm">🌈 Multi-paradigm</a></h3>
-<p>Mix-and-match techniques from different Behavior Selection approaches for each point in the graph. I'm focusing on Behavior Trees &amp; Utility AI at the moment because they seem to strike a nice balance between predictability and flexibility, but hope to tackle GOAP selectors at some point.</p>
-<h3 id="-byo-architecture"><a class="header" href="#-byo-architecture">🌍 BYO architecture</a></h3>
-<p>Beet is built in Bevy, specifically the lightweight <code>bevy_ecs</code> crate, which can target epic gaming rigs and tiny microcontrollers alike. Of course if you're using Bevy (or just <code>bevy_ecs</code>) as your app framework there will be no need for blackboards etc but this is by no means a requirement. The <a href="https://github.com/mrchantey/beet/blob/main/crates/beet_web/src/bee/bee_game.rs">Beet Playground</a> is a great example of a non-ecs application that uses the <code>beet_net</code> pubsub framework to sync with the AI.</p>
-<p>All live examples use the <a href="https://mrchantey.github.io/beet/play?spawn_bee=1">beet playground</a>, a small web app for demos.</p>
-<iframe src="https://mrchantey.github.io/beet/play/?spawn_bee=1&spawn_flower=1&tree=CAAAAAAAAABOZXcgTm9kZQEAAAAAAAAAAAAAAAAAAD%2FNzMw9AAAAAAAAAAA"></iframe>
+</li>
+<li><code>Hover</code>
+<ul>
+<li>The entity will slowly move up and down in a sinusoidal pattern.</li>
+</ul>
+</li>
+</ul>
+<p>Notice the primitive nature of these actions, they can be combined to create a &quot;hover for duration&quot; node. We separate the animation from the success criteria for optimal reusablility.</p>
+<h2 id="selectors"><a class="header" href="#selectors"><code>Selectors</code></a></h2>
+<p><em>aka <code>thinkers, parent nodes</code></em></p>
+<p>Selectors are use by parent nodes to decide which children to run. </p>
+<p>Here are some examples of selectors:</p>
+<ul>
+<li><code>SequenceSelector</code>
+<ul>
+<li>An action that runs all of its children in order until one fails.</li>
+<li>Logical AND - <code>RUN child1 THEN child2 etc</code></li>
+</ul>
+</li>
+<li><code>FallbackSelector</code>
+<ul>
+<li>An action that runs all of its children in order until one succeeds.</li>
+<li>Logical OR: <code>RUN child1 OTHERWISE child2 etc</code></li>
+</ul>
+</li>
+<li><code>UtilitySelector</code>
+<ul>
+<li>An action that observes the [<code>Score</code>] of each child and selects the highest to run.</li>
+</ul>
+</li>
+</ul>
+<h2 id="common-components"><a class="header" href="#common-components">Common Components</a></h2>
+<ul>
+<li><code>Running</code>
+<ul>
+<li>Indicate this node is currently running.</li>
+</ul>
+</li>
+<li><code>RunResult</code>
+<ul>
+<li>Notify their parent that this node has finished.</li>
+</ul>
+</li>
+<li><code>Score</code>
+<ul>
+<li>Notify the parent how favourable it would be for this node to run.</li>
+</ul>
+</li>
+<li><code>RunTimer</code>
+<ul>
+<li>How long the action has been running for</li>
+</ul>
+</li>
+</ul>
+<h2 id="graph-terminology"><a class="header" href="#graph-terminology">Graph Terminology</a></h2>
+<ul>
+<li><code>BehaviorNode</code>
+<ul>
+<li>Literally a wrapper of a <code>Vec&lt;Action&gt;</code></li>
+</ul>
+</li>
+<li><code>BehaviorGraph</code>
+<ul>
+<li>A <code>petgraph</code> collection of Nodes and directed links between them. This <em>can</em> be cyclic but I prefer not to do that.</li>
+<li>This is the &quot;blueprint&quot; of an agents actual graph, and its <code>spawn</code> method is used to be attached to an agent.</li>
+</ul>
+</li>
+<li><code>Agent</code>
+<ul>
+<li>Any entity that has some components to be modified by the behavior graph, ie <code>Transform</code> or <code>MotorSpeed</code>.</li>
+</ul>
+</li>
+</ul>
+<h2 id="agent-lifecycle"><a class="header" href="#agent-lifecycle">Agent Lifecycle</a></h2>
+<ol>
+<li>Create a graph and set the initial values for all of the accompanying actions.</li>
+<li>When creating an agent, call <code>graph.spawn(target)</code> which will do the following:
+<ul>
+<li>Create an entity for each node in the graph</li>
+</ul>
+ <!-- - Attach an `EntityGraph` to the target. *this will soon change* -->
+</li>
+<li>When the agent is destroyed the accompanying graph is also destroyed.</li>
+</ol>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../tutorial/getting-started.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
 
-                            <a rel="next" href="tutorial/getting-started.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../tutorial/worked-example.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -208,8 +282,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../tutorial/getting-started.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
 
-                    <a rel="next" href="tutorial/getting-started.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="../tutorial/worked-example.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
@@ -224,18 +301,18 @@
         </script>
 
 
-        <script src="elasticlunr.min.js"></script>
-        <script src="mark.min.js"></script>
-        <script src="searcher.js"></script>
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
 
-        <script src="clipboard.min.js"></script>
-        <script src="highlight.js"></script>
-        <script src="book.js"></script>
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="deps/custom.js"></script>
-        <script src="deps/mermaid.min.js"></script>
-        <script src="deps/mermaid-init.js"></script>
+        <script src="../deps/custom.js"></script>
+        <script src="../deps/mermaid.min.js"></script>
+        <script src="../deps/mermaid-init.js"></script>
 
 
     </div>

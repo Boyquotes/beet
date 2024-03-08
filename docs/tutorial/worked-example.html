@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Beet - Beet</title>
+        <title>Worked Example - Beet</title>
 
 
         <!-- Custom HTML head -->
@@ -84,7 +84,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="../overview/index.html" class="active"><strong aria-hidden="true">1.</strong> Beet</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../overview/getting-started.html"><strong aria-hidden="true">1.1.</strong> Getting Started</a></li></ol></li><li class="chapter-item expanded "><a href="../ecs/index.html"><strong aria-hidden="true">2.</strong> ECS</a></li><li class="chapter-item expanded "><a href="../beetmash/index.html"><strong aria-hidden="true">3.</strong> Beetmash</a></li><li class="chapter-item expanded "><a href="../misc/resources.html"><strong aria-hidden="true">4.</strong> Resources</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> Beet</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../tutorial/getting-started.html"><strong aria-hidden="true">1.1.</strong> Getting Started</a></li><li class="chapter-item expanded "><a href="../tutorial/concepts.html"><strong aria-hidden="true">1.2.</strong> Concepts</a></li><li class="chapter-item expanded "><a href="../tutorial/worked-example.html" class="active"><strong aria-hidden="true">1.3.</strong> Worked Example</a></li></ol></li><li class="chapter-item expanded "><a href="../ecs/index.html"><strong aria-hidden="true">2.</strong> ECS</a></li><li class="chapter-item expanded "><a href="../beetmash/index.html"><strong aria-hidden="true">3.</strong> Beetmash</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><a href="../misc/roadmap.html">Roadmap</a></li><li class="chapter-item expanded affix "><a href="../misc/resources.html">Resources</a></li><li class="chapter-item expanded affix "><a href="../misc/contributing.html">Contributing</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -167,41 +167,28 @@
 
                 <div id="content" class="content">
                     <main>
-                        <div style="display:flex; justify-content:space-between">
-<h1 id="beet"><a class="header" href="#beet">Beet</a></h1>
-<span style="font-size:6em;">🌻🐝</span>
-<!-- <img src="images/spotted-gum.jpg" height=200px> -->
-</div>
-<br/>
-<p>Beet is an AI behavior library for games and robotics.</p>
-<blockquote>
-<p><em>Very early stage warning:</em></p>
-<ul>
-<li>breaking changes on patch versions</li>
-<li>continued development not guaranteed</li>
-<li>docs are wip</li>
-<li>bugs ahoy</li>
-</ul>
-</blockquote>
-<div class="table-wrapper"><table><thead><tr><th>Roadmap</th><th></th></tr></thead><tbody>
-<tr><td>Behavior Trees</td><td>✅</td></tr>
-<tr><td>State Trees</td><td>🚧</td></tr>
-<tr><td>GOAP</td><td>🚧</td></tr>
-<tr><td>Machine Learning</td><td></td></tr>
-</tbody></table>
-</div>
-<h2 id="crate-structure"><a class="header" href="#crate-structure">Crate structure</a></h2>
+                        <h1 id="getting-started"><a class="header" href="#getting-started">Getting Started</a></h1>
+<!-- keep all code references in sync with docs please -->
+<h2 id="worked-example"><a class="header" href="#worked-example">Worked Example</a></h2>
+<p>Ok enough of the theory, let. Consider the following diagram for Billy the Bee 🐝 </p>
 <pre class="mermaid">graph TB;
-    beet_ecs--&gt;beet;
-		beet_net--&gt;beet;
+    A--&gt;B;
+		A--&gt;C;
+
+A[sequence]
+B((has_energy))
+C[wander]
 </pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../tutorial/concepts.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
 
-                            <a rel="next" href="../overview/getting-started.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../ecs/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -211,8 +198,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../tutorial/concepts.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
 
-                    <a rel="next" href="../overview/getting-started.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="../ecs/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

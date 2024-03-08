@@ -85,7 +85,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="overview/index.html"><strong aria-hidden="true">1.</strong> Beet</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="overview/getting-started.html"><strong aria-hidden="true">1.1.</strong> Getting Started</a></li></ol></li><li class="chapter-item expanded "><a href="ecs/index.html"><strong aria-hidden="true">2.</strong> ECS</a></li><li class="chapter-item expanded "><a href="beetmash/index.html"><strong aria-hidden="true">3.</strong> Beetmash</a></li><li class="chapter-item expanded "><a href="misc/resources.html"><strong aria-hidden="true">4.</strong> Resources</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Beet</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tutorial/getting-started.html"><strong aria-hidden="true">1.1.</strong> Getting Started</a></li><li class="chapter-item expanded "><a href="tutorial/concepts.html"><strong aria-hidden="true">1.2.</strong> Concepts</a></li><li class="chapter-item expanded "><a href="tutorial/worked-example.html"><strong aria-hidden="true">1.3.</strong> Worked Example</a></li></ol></li><li class="chapter-item expanded "><a href="ecs/index.html"><strong aria-hidden="true">2.</strong> ECS</a></li><li class="chapter-item expanded "><a href="beetmash/index.html"><strong aria-hidden="true">3.</strong> Beetmash</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><a href="misc/roadmap.html">Roadmap</a></li><li class="chapter-item expanded affix "><a href="misc/resources.html">Resources</a></li><li class="chapter-item expanded affix "><a href="misc/contributing.html">Contributing</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -168,13 +168,8 @@
 
                 <div id="content" class="content">
                     <main>
-                        <div style="display:flex; justify-content:space-between">
-<h1 id="beet"><a class="header" href="#beet">Beet</a></h1>
-<span style="font-size:6em;">🌻🐝</span>
-<!-- <img src="overview/images/spotted-gum.jpg" height=200px> -->
-</div>
-<br/>
-<p>Beet is an AI behavior library for games and robotics.</p>
+                        <h1 id="beet"><a class="header" href="#beet">Beet</a></h1>
+<p>Beet, or <em>bee-tee</em>, is an AI behavior library for games and robotics built in Rust.</p>
 <blockquote>
 <p><em>Very early stage warning:</em></p>
 <ul>
@@ -184,20 +179,123 @@
 <li>bugs ahoy</li>
 </ul>
 </blockquote>
-<div class="table-wrapper"><table><thead><tr><th>Roadmap</th><th></th></tr></thead><tbody>
-<tr><td>Behavior Trees</td><td>✅</td></tr>
-<tr><td>State Trees</td><td>🚧</td></tr>
-<tr><td>GOAP</td><td>🚧</td></tr>
-<tr><td>Machine Learning</td><td></td></tr>
-</tbody></table>
-</div>
-<h2 id="crate-structure"><a class="header" href="#crate-structure">Crate structure</a></h2>
-<pre class="mermaid">graph TB;
-    beet_ecs--&gt;beet;
-		beet_net--&gt;beet;
-</pre>
+<h2 id="features"><a class="header" href="#features">Features</a></h2>
+<h3 id="-fast"><a class="header" href="#-fast">🔥 Fast</a></h3>
+<p>All actions are run in parallel thanks to the spectacular <code>bevy_ecs</code> scheduler.</p>
+<h3 id="-modular"><a class="header" href="#-modular">🌳 Modular</a></h3>
+<p>Like the ECS model, each node (entity) is simply a list of actions (components). Action Graphs can be composed of other graphs, allowing for epic composability. </p>
+<blockquote>
+<p>All examples in these docs are <strong>trees</strong>, ie non-cyclic directed graphs. This is not a techical limitation, but a choice to encourage modularity.</p>
+</blockquote>
+<h3 id="-multi-paradigm"><a class="header" href="#-multi-paradigm">🌈 Multi-paradigm</a></h3>
+<p>Mix-and-match techniques from different Behavior Selection approaches for each point in the graph. I'm focusing on Behavior Trees &amp; Utility AI at the moment because they seem to strike a nice balance between predictability and flexibility, but hope to tackle GOAP selectors at some point.</p>
+<h3 id="-byo-architecture"><a class="header" href="#-byo-architecture">🌍 BYO architecture</a></h3>
+<p>Beet is built in Bevy, specifically the lightweight <code>bevy_ecs</code> crate, which can target epic gaming rigs and tiny microcontrollers alike. Of course if you're using Bevy (or just <code>bevy_ecs</code>) as your app framework there will be no need for blackboards etc but this is by no means a requirement. The <a href="https://github.com/mrchantey/beet/blob/main/crates/beet_web/src/bee/bee_game.rs">Beet Playground</a> is a great example of a non-ecs application that uses the <code>beet_net</code> pubsub framework to sync with the AI.</p>
+<p>All live examples use the <a href="https://mrchantey.github.io/beet/play?spawn_bee=1">beet playground</a>, a small web app for demos.</p>
+<iframe src="https://mrchantey.github.io/beet/play/?spawn_bee=1&spawn_flower=1&tree=CAAAAAAAAABOZXcgTm9kZQEAAAAAAAAAAAAAAAAAAD%2FNzMw9AAAAAAAAAAA"></iframe>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="getting-started"><a class="header" href="#getting-started">Getting Started</a></h1>
-<p>A fundamental concept of Beet is behavior trees. Consider the following diagram for Billy the Bee 🐝 </p>
+<p>By the end of this chapter you'll have worked through all the components of this example:</p>
+<iframe src="https://mrchantey.github.io/beet/play/?spawn_bee=1"></iframe>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="concepts"><a class="header" href="#concepts">Concepts</a></h1>
+<!-- keep all code references in sync with docs please -->
+<p>Every behavior tree library uses its own terminology, and this one is no different 🙃</p>
+<h2 id="actions"><a class="header" href="#actions"><code>Actions</code></a></h2>
+<p><em>aka <code>tasks</code></em></p>
+<p>Actions are something to be performed for a given node, in beet this a combination of a <code>Component</code>, the data required for the task, and a <code>System</code>, the accompanying logic for that task. They usually either get an agent to do something or send information to their parent.</p>
+<p>Here are some examples of actions:</p>
+<ul>
+<li><code>SucceedInDuration</code>
+<ul>
+<li>After a given duration, will set <code>RunResult</code> to <code>RunResult::Successs</code></li>
+</ul>
+</li>
+<li><code>Hover</code>
+<ul>
+<li>The entity will slowly move up and down in a sinusoidal pattern.</li>
+</ul>
+</li>
+</ul>
+<p>Notice the primitive nature of these actions, they can be combined to create a &quot;hover for duration&quot; node. We separate the animation from the success criteria for optimal reusablility.</p>
+<h2 id="selectors"><a class="header" href="#selectors"><code>Selectors</code></a></h2>
+<p><em>aka <code>thinkers, parent nodes</code></em></p>
+<p>Selectors are use by parent nodes to decide which children to run. </p>
+<p>Here are some examples of selectors:</p>
+<ul>
+<li><code>SequenceSelector</code>
+<ul>
+<li>An action that runs all of its children in order until one fails.</li>
+<li>Logical AND - <code>RUN child1 THEN child2 etc</code></li>
+</ul>
+</li>
+<li><code>FallbackSelector</code>
+<ul>
+<li>An action that runs all of its children in order until one succeeds.</li>
+<li>Logical OR: <code>RUN child1 OTHERWISE child2 etc</code></li>
+</ul>
+</li>
+<li><code>UtilitySelector</code>
+<ul>
+<li>An action that observes the [<code>Score</code>] of each child and selects the highest to run.</li>
+</ul>
+</li>
+</ul>
+<h2 id="common-components"><a class="header" href="#common-components">Common Components</a></h2>
+<ul>
+<li><code>Running</code>
+<ul>
+<li>Indicate this node is currently running.</li>
+</ul>
+</li>
+<li><code>RunResult</code>
+<ul>
+<li>Notify their parent that this node has finished.</li>
+</ul>
+</li>
+<li><code>Score</code>
+<ul>
+<li>Notify the parent how favourable it would be for this node to run.</li>
+</ul>
+</li>
+<li><code>RunTimer</code>
+<ul>
+<li>How long the action has been running for</li>
+</ul>
+</li>
+</ul>
+<h2 id="graph-terminology"><a class="header" href="#graph-terminology">Graph Terminology</a></h2>
+<ul>
+<li><code>BehaviorNode</code>
+<ul>
+<li>Literally a wrapper of a <code>Vec&lt;Action&gt;</code></li>
+</ul>
+</li>
+<li><code>BehaviorGraph</code>
+<ul>
+<li>A <code>petgraph</code> collection of Nodes and directed links between them. This <em>can</em> be cyclic but I prefer not to do that.</li>
+<li>This is the &quot;blueprint&quot; of an agents actual graph, and its <code>spawn</code> method is used to be attached to an agent.</li>
+</ul>
+</li>
+<li><code>Agent</code>
+<ul>
+<li>Any entity that has some components to be modified by the behavior graph, ie <code>Transform</code> or <code>MotorSpeed</code>.</li>
+</ul>
+</li>
+</ul>
+<h2 id="agent-lifecycle"><a class="header" href="#agent-lifecycle">Agent Lifecycle</a></h2>
+<ol>
+<li>Create a graph and set the initial values for all of the accompanying actions.</li>
+<li>When creating an agent, call <code>graph.spawn(target)</code> which will do the following:
+<ul>
+<li>Create an entity for each node in the graph</li>
+</ul>
+ <!-- - Attach an `EntityGraph` to the target. *this will soon change* -->
+</li>
+<li>When the agent is destroyed the accompanying graph is also destroyed.</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="getting-started-1"><a class="header" href="#getting-started-1">Getting Started</a></h1>
+<!-- keep all code references in sync with docs please -->
+<h2 id="worked-example"><a class="header" href="#worked-example">Worked Example</a></h2>
+<p>Ok enough of the theory, let. Consider the following diagram for Billy the Bee 🐝 </p>
 <pre class="mermaid">graph TB;
     A--&gt;B;
 		A--&gt;C;
@@ -207,7 +305,7 @@ B((has_energy))
 C[wander]
 </pre>
 <div style="break-before: page; page-break-before: always;"></div><p>The ECS component of Beet is a modular task switching library suitable for game AI, robotics &amp; other performance-critical environments. It is built with <code>bevy_ecs</code> which allows for parallelism and no blackboard. The primitives it provies can be used for multiple selector paradigms like Behaviour Trees, State Machines and Utility AI.</p>
-<h2 id="features"><a class="header" href="#features">Features</a></h2>
+<h2 id="features-1"><a class="header" href="#features-1">Features</a></h2>
 <ul>
 <li>🐦 Powered by <code>bevy_ecs</code> and <code>petgraph</code></li>
 <li>🔥 Highly Parallel</li>
@@ -224,7 +322,7 @@ C[wander]
 <li>Get clever with generics and create distinct types <em>per node</em> of a graph. This allowed for an entire graph to be stored as components on a single entity but was not great for a bunch of reasons. The dealbreaker was not being able to create/edit graphs at runtime.</li>
 </ol>
 <p>I'm quite confident in this third approach, representing graphs as linked entities. </p>
-<h3 id="actions"><a class="header" href="#actions">Actions</a></h3>
+<h3 id="actions-1"><a class="header" href="#actions-1">Actions</a></h3>
 <p>Actions without children usually execute some behavior then return a <code>RunResult::Success</code> or a <code>RunResult::Failure</code>.</p>
 <p>An <code>action</code> is a bevy component struct with an associated system. Currently all actions must implement <code>Default, Clone, Component, serde::Serialize, serde::Deserialize</code>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -255,9 +353,16 @@ pub struct ScoringAction{
 <h3 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h3>
 <p>Documentation is WIP, in the meantime have a look at <code>./crates/gamai/test/selectors</code> for examples of selectors and how they are used.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="beetmash"><a class="header" href="#beetmash">Beetmash</a></h1>
-<p>Beetmash a creation platform built upon <code>beet</code>.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="resources"><a class="header" href="#resources">Resources</a></h1>
-<p>Architecture:</p>
+<p>🚧 work in progress 🚧</p>
+<p>Beetmash a planned learning and creation platform for <code>beet</code>.</p>
+<div style="break-before: page; page-break-before: always;"></div><div class="table-wrapper"><table><thead><tr><th>Roadmap</th><th></th></tr></thead><tbody>
+<tr><td>Behavior Trees</td><td>✅</td></tr>
+<tr><td>State Trees</td><td>🚧</td></tr>
+<tr><td>GOAP</td><td>🚧</td></tr>
+<tr><td>Machine Learning</td><td></td></tr>
+</tbody></table>
+</div><div style="break-before: page; page-break-before: always;"></div><h1 id="resources"><a class="header" href="#resources">Resources</a></h1>
+<h2 id="architecture"><a class="header" href="#architecture">Architecture</a></h2>
 <ul>
 <li>
 <p>GDC - <a href="https://youtu.be/IvK0ZlNoxjw">Modular AI</a></p>
@@ -287,28 +392,28 @@ pub struct ScoringAction{
 </ul>
 </li>
 </ul>
-<p>AI libraries:</p>
+<h2 id="ai-libraries"><a class="header" href="#ai-libraries">AI libraries</a></h2>
 <ul>
-<li>
-<p>C++ Behavior trees - <a href="https://www.behaviortree.dev/">BehaviorTree.cpp</a></p>
-</li>
-<li>
-<p>Bevy Utility AI - <a href="https://crates.io/crates/big-brain">big-brain</a>
-Misc:</p>
-</li>
-<li>
-<p>YouTube - <a href="https://www.youtube.com/watch?v=KeShMInMjro&amp;list=PLFQdM4LOGDr_vYJuo8YTRcmv3FrwczdKg">Introduction to Behaviour Trees</a></p>
-</li>
-<li>
-<p>YouTube - <a href="https://www.youtube.com/playlist?list=PLk-SPWGynZmM3jv0TCV-Shhe_ltgc7qxq">GDC Game AI Playlist</a></p>
-</li>
+<li>C++ Behavior trees - <a href="https://www.behaviortree.dev/">BehaviorTree.cpp</a></li>
+<li>Bevy Utility AI - <a href="https://crates.io/crates/big-brain">big-brain</a></li>
 </ul>
-<p>Flecs / Entity Relationships</p>
+<h2 id="misc"><a class="header" href="#misc">Misc</a></h2>
 <ul>
-<li><a href="https://github.com/SanderMertens/flecs/blob/master/examples/cpp/game_mechanics/factory/src/main.cpp">State Machine Example</a></li>
+<li>YouTube - <a href="https://www.youtube.com/watch?v=KeShMInMjro&amp;list=PLFQdM4LOGDr_vYJuo8YTRcmv3FrwczdKg">Introduction to Behaviour Trees</a></li>
+<li>YouTube - <a href="https://www.youtube.com/playlist?list=PLk-SPWGynZmM3jv0TCV-Shhe_ltgc7qxq">GDC Game AI Playlist</a></li>
+</ul>
+<h2 id="entity-relationships"><a class="header" href="#entity-relationships">Entity Relationships</a></h2>
+<ul>
+<li><a href="https://github.com/SanderMertens/flecs/blob/master/examples/cpp/game_mechanics/factory/src/main.cpp">Flecs - State Machine Example</a></li>
 <li><a href="https://ajmmertens.medium.com/e7971da33ac3">Games as databases</a></li>
 <li><a href="https://ajmmertens.medium.com/742de7a18e59">Why storing state machines in ecs is a bad idea</a></li>
 </ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="contributing"><a class="header" href="#contributing">Contributing</a></h1>
+<h2 id="crate-structure"><a class="header" href="#crate-structure">Crate structure</a></h2>
+<pre class="mermaid">graph TB;
+    beet_ecs--&gt;beet;
+		beet_net--&gt;beet;
+</pre>
 
                     </main>
 
