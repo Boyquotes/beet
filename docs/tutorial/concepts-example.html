@@ -178,7 +178,7 @@
 
 A[UtilitySelector]
 B[
-	SetScore: 0.5
+	ConstantScore: 0.5
 	----------------
 	Wander
 ]
@@ -193,7 +193,7 @@ E[SucceedInDuration: 1 second]
 <p>Lets go through each action in the diagram:</p>
 <ol>
 <li><code>UtilitySelector</code>: This will choose the child to run with the highest score.</li>
-<li><code>SetScore</code>: Provides the parent with a constant score for this node.</li>
+<li><code>ConstantScore</code>: Provides the parent with a constant score for this node.</li>
 <li><code>Wander</code>: The bee will move around the map somewhat randomly.</li>
 <li><code>TargetScorer</code>: This action has two roles:
 <ul>
