@@ -85,7 +85,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Beet</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tutorial/getting-started.html"><strong aria-hidden="true">1.1.</strong> Getting Started</a></li><li class="chapter-item expanded "><a href="tutorial/concepts.html"><strong aria-hidden="true">1.2.</strong> Concepts</a></li><li class="chapter-item expanded "><a href="tutorial/worked-example.html"><strong aria-hidden="true">1.3.</strong> Worked Example</a></li></ol></li><li class="chapter-item expanded "><a href="ecs/index.html"><strong aria-hidden="true">2.</strong> ECS</a></li><li class="chapter-item expanded "><a href="beetmash/index.html"><strong aria-hidden="true">3.</strong> Beetmash</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><a href="misc/roadmap.html">Roadmap</a></li><li class="chapter-item expanded affix "><a href="misc/resources.html">Resources</a></li><li class="chapter-item expanded affix "><a href="misc/contributing.html">Contributing</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Beet</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tutorial/getting-started.html"><strong aria-hidden="true">1.1.</strong> Getting Started</a></li><li class="chapter-item expanded "><a href="tutorial/concepts-theory.html"><strong aria-hidden="true">1.2.</strong> Concepts - Theory</a></li><li class="chapter-item expanded "><a href="tutorial/concepts-example.html"><strong aria-hidden="true">1.3.</strong> Concepts - Example</a></li></ol></li><li class="chapter-item expanded "><a href="ecs/index.html"><strong aria-hidden="true">2.</strong> ECS</a></li><li class="chapter-item expanded "><a href="beetmash/index.html"><strong aria-hidden="true">3.</strong> Beetmash</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><a href="misc/roadmap.html">Roadmap</a></li><li class="chapter-item expanded affix "><a href="misc/resources.html">Resources</a></li><li class="chapter-item expanded affix "><a href="misc/contributing.html">Contributing</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -169,36 +169,25 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="beet"><a class="header" href="#beet">Beet</a></h1>
-<p>Beet, or <em>bee-tee</em>, is an AI behavior library for games and robotics built in Rust.</p>
-<blockquote>
-<p><em>Very early stage warning:</em></p>
-<ul>
-<li>breaking changes on patch versions</li>
-<li>continued development not guaranteed</li>
-<li>docs are wip</li>
-<li>bugs ahoy</li>
-</ul>
-</blockquote>
+<p>Beet is a task switching library suitable for game AI, robotics &amp; other performance-critical environments.</p>
 <iframe src="https://mrchantey.github.io/beet/play/?spawn-bee=&spawn-flower=&hide-graph=&graph=CAAAAAAAAABOZXcgTm9kZQEAAAAAAAAAAAAAAAAAAD%2FNzMw9AAAAAAAAAAA"></iframe>
+<p><em>Examples are built with the <a href="https://mrchantey.github.io/beet/play?spawn-bee=1">beet playground</a>, feel free to experiment with the bee's graph then spawn some to see the effect.</em></p>
 <h2 id="features"><a class="header" href="#features">Features</a></h2>
-<h3 id="-fast"><a class="header" href="#-fast">🔥 Fast</a></h3>
-<p>All actions are run in parallel thanks to the spectacular <code>bevy_ecs</code> scheduler.</p>
 <h3 id="-modular"><a class="header" href="#-modular">🌳 Modular</a></h3>
-<p>Like the ECS model, each node (entity) is simply a list of actions (components). Action Graphs can be composed of other graphs, allowing for epic composability. </p>
-<blockquote>
-<p>All examples in these docs are <strong>trees</strong>, ie non-cyclic directed graphs. This is not a techical limitation, but a choice to encourage modularity.</p>
-</blockquote>
+<p>Beet follows the ECS architecture, each node (entity) is simply a list of actions (components). Action Graphs can be composed of other graphs, allowing for epic code reusability.</p>
 <h3 id="-multi-paradigm"><a class="header" href="#-multi-paradigm">🌈 Multi-paradigm</a></h3>
-<p>Mix-and-match techniques from different Behavior Selection approaches for each point in the graph. I'm focusing on Behavior Trees &amp; Utility AI at the moment because they seem to strike a nice balance between predictability and flexibility, but hope to tackle GOAP selectors at some point.</p>
-<h3 id="-byo-architecture"><a class="header" href="#-byo-architecture">🌍 BYO architecture</a></h3>
-<p>Beet is built in Bevy, specifically the lightweight <code>bevy_ecs</code> crate, which can target epic gaming rigs and tiny microcontrollers alike. Of course if you're using Bevy (or just <code>bevy_ecs</code>) as your app framework there will be no need for blackboards etc but this is by no means a requirement. The <a href="https://github.com/mrchantey/beet/blob/main/crates/beet_web/src/bee/bee_game.rs">Beet Playground</a> is a great example of a non-ecs application that uses the <code>beet_net</code> pubsub framework to sync with the AI.</p>
-<p>All live examples use the <a href="https://mrchantey.github.io/beet/play?spawn_bee=1">beet playground</a>, a small web app for demos.</p>
+<p>Mix-and-match techniques from different Behavior Selection approaches for each point in the graph. Currently only Behavior Tree and Utility AI techniques are supported, but the architecture is highly extendable, allowing for state-machine transitions, GOAP, etc.</p>
+<h3 id="-flexible"><a class="header" href="#-flexible">🌍 Flexible</a></h3>
+<p>Beet is built upon the lightweight <code>bevy_ecs</code> crate, which can target epic gaming rigs and tiny microcontrollers alike. Of course if you're using Bevy as your app framework there will be no need for blackboards etc but this is by no means a requirement. </p>
+<blockquote>
+<p>If you would prefer to read code the <a href="https://github.com/mrchantey/beet/blob/main/crates/beet_web/src/bee/bee_game.rs">Beet Playground</a> is a great example of a non-ecs application that uses the <code>beet_net</code> pubsub framework to sync with the AI.</p>
+</blockquote>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="getting-started"><a class="header" href="#getting-started">Getting Started</a></h1>
-<p>By the end of this chapter you'll have worked through all the components of this example:</p>
-<iframe src="https://mrchantey.github.io/beet/play/?spawn_bee=1"></iframe>
+<p>By the end of this chapter you'll have a strong understanding of how to build the following demo:</p>
+<iframe src="https://mrchantey.github.io/beet/play/?spawn-bee=1"></iframe>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="concepts"><a class="header" href="#concepts">Concepts</a></h1>
 <!-- keep all code references in sync with docs please -->
-<p>Every behavior tree library uses its own terminology, and this one is no different 🙃</p>
+<p>The terminology from this library is a wip and will likely change.</p>
 <h2 id="actions"><a class="header" href="#actions"><code>Actions</code></a></h2>
 <p><em>aka <code>tasks</code></em></p>
 <p>Actions are something to be performed for a given node, in beet this a combination of a <code>Component</code>, the data required for the task, and a <code>System</code>, the accompanying logic for that task. They usually either get an agent to do something or send information to their parent.</p>
@@ -206,7 +195,7 @@
 <ul>
 <li><code>SucceedInDuration</code>
 <ul>
-<li>After a given duration, will set <code>RunResult</code> to <code>RunResult::Successs</code></li>
+<li>After a given <code>Duration</code>, set <code>RunResult</code> to <code>RunResult::Successs</code></li>
 </ul>
 </li>
 <li><code>Hover</code>
@@ -215,10 +204,10 @@
 </ul>
 </li>
 </ul>
-<p>Notice the primitive nature of these actions, they can be combined to create a &quot;hover for duration&quot; node. We separate the animation from the success criteria for optimal reusablility.</p>
+<p>Notice the primitive nature of these actions, they could be combined to create a &quot;hover for duration&quot; node.</p>
 <h2 id="selectors"><a class="header" href="#selectors"><code>Selectors</code></a></h2>
-<p><em>aka <code>thinkers, parent nodes</code></em></p>
-<p>Selectors are use by parent nodes to decide which children to run. </p>
+<p><em>aka <code>thinkers, parent nodes, composite nodes</code></em></p>
+<p>Selectors are added to parent nodes and decide which children to run. </p>
 <p>Here are some examples of selectors:</p>
 <ul>
 <li><code>SequenceSelector</code>
@@ -235,7 +224,7 @@
 </li>
 <li><code>UtilitySelector</code>
 <ul>
-<li>An action that observes the [<code>Score</code>] of each child and selects the highest to run.</li>
+<li>An action that observes the current <code>Score</code> of each child and selects the highest to run.</li>
 </ul>
 </li>
 </ul>
@@ -258,7 +247,7 @@
 </li>
 <li><code>RunTimer</code>
 <ul>
-<li>How long the action has been running for</li>
+<li>How long the action has been running for.</li>
 </ul>
 </li>
 </ul>
@@ -266,46 +255,73 @@
 <ul>
 <li><code>BehaviorNode</code>
 <ul>
-<li>Literally a wrapper of a <code>Vec&lt;Action&gt;</code></li>
+<li>Literally a wrapper of a <code>Vec&lt;Action&gt;</code>. These can be either leaf or parent nodes.</li>
 </ul>
 </li>
 <li><code>BehaviorGraph</code>
 <ul>
-<li>A <code>petgraph</code> collection of Nodes and directed links between them. This <em>can</em> be cyclic but I prefer not to do that.</li>
-<li>This is the &quot;blueprint&quot; of an agents actual graph, and its <code>spawn</code> method is used to be attached to an agent.</li>
+<li>A <code>petgraph</code> collection of Nodes and directed links between them. </li>
+<li>It <em>can</em> be cyclic but I prefer not to do that because it makes graphs more reusable and easier to reason about.</li>
 </ul>
 </li>
 <li><code>Agent</code>
 <ul>
-<li>Any entity that has some components to be modified by the behavior graph, ie <code>Transform</code> or <code>MotorSpeed</code>.</li>
+<li>Any entity that has some components, ie ie <code>Transform</code> or <code>MotorSpeed</code>, to be read or modified by the behavior graph.</li>
 </ul>
 </li>
 </ul>
-<h2 id="agent-lifecycle"><a class="header" href="#agent-lifecycle">Agent Lifecycle</a></h2>
-<ol>
-<li>Create a graph and set the initial values for all of the accompanying actions.</li>
-<li>When creating an agent, call <code>graph.spawn(target)</code> which will do the following:
-<ul>
-<li>Create an entity for each node in the graph</li>
-</ul>
- <!-- - Attach an `EntityGraph` to the target. *this will soon change* -->
-</li>
-<li>When the agent is destroyed the accompanying graph is also destroyed.</li>
-</ol>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="getting-started-1"><a class="header" href="#getting-started-1">Getting Started</a></h1>
 <!-- keep all code references in sync with docs please -->
 <h2 id="worked-example"><a class="header" href="#worked-example">Worked Example</a></h2>
-<p>Ok enough of the theory, let. Consider the following diagram for Billy the Bee 🐝 </p>
 <pre class="mermaid">graph TB;
-    A--&gt;B;
-		A--&gt;C;
+  A--&gt;B;
+  A--&gt;C;
+	C--&gt;D;
+	C--&gt;E;
 
-A[sequence]
-B((has_energy))
-C[wander]
+A[UtilitySelector]
+B[
+	SetScore: 0.5
+	----------------
+	Wander
+]
+C[
+	TargetScorer: flower
+	------------------------
+	SequenceSelector
+]
+D[Seek]
+E[SucceedInDuration: 1 second]
 </pre>
-<div style="break-before: page; page-break-before: always;"></div><p>The ECS component of Beet is a modular task switching library suitable for game AI, robotics &amp; other performance-critical environments. It is built with <code>bevy_ecs</code> which allows for parallelism and no blackboard. The primitives it provies can be used for multiple selector paradigms like Behaviour Trees, State Machines and Utility AI.</p>
-<h2 id="features-1"><a class="header" href="#features-1">Features</a></h2>
+<p>Lets go through each action in the diagram:</p>
+<ol>
+<li><code>UtilitySelector</code>: This will choose the child to run with the highest score.</li>
+<li><code>SetScore</code>: Provides the parent with a constant score for this node.</li>
+<li><code>Wander</code>: The bee will move around the map somewhat randomly.</li>
+<li><code>TargetScorer</code>: This action has two roles:
+<ul>
+<li>Provide the parent with a score depending on whether a target named &quot;flower&quot; is nearby</li>
+<li>Update <code>TargetEntity</code> component of its children.</li>
+</ul>
+</li>
+<li><code>SequenceSelector</code>: Run each child in order until completion or one fails.</li>
+<li><code>SucceedInDuration</code>: Upon arriving at the flower, wait for 1 second to emulate pollination.</li>
+</ol>
+<p>Notice how we are using these tiny actions to compose a behavior, every one of them is in the core library and we've created a behavior without writing any new code.</p>
+<p>Furthermore this graph can very easily be attached as a <code>work mode</code> subgraph of a larger <code>bee</code> graph.</p>
+<h2 id="agent-lifecycle"><a class="header" href="#agent-lifecycle">Agent Lifecycle</a></h2>
+<ol>
+<li>A graph is defined containing the relationships between nodes and the initial values for each of their accompanying actions.</li>
+<li>When creating an agent, call <code>my_graph.spawn(my_agent)</code> which will do the following for each node in the graph:
+<ul>
+<li>Create an entity</li>
+<li>If it has any children, put their entity ids in an <code>Edges</code> component</li>
+<li>Create a component for each action</li>
+</ul>
+</li>
+<li>When the agent is despawned, all entities in the graph are also despawned leaving no trace.</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="features-1"><a class="header" href="#features-1">Features</a></h2>
 <ul>
 <li>🐦 Powered by <code>bevy_ecs</code> and <code>petgraph</code></li>
 <li>🔥 Highly Parallel</li>
