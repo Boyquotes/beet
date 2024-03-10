@@ -301,7 +301,7 @@ E[SucceedInDuration: 1 second]
 <li><code>TargetScorer</code>: This action has two roles:
 <ul>
 <li>Provide the parent with a score depending on whether a target named &quot;flower&quot; is nearby</li>
-<li>Update <code>TargetEntity</code> component of its children.</li>
+<li>Update <code>ActionTarget</code> component of its children.</li>
 </ul>
 </li>
 <li><code>SequenceSelector</code>: Run each child in order until completion or one fails.</li>
@@ -312,7 +312,7 @@ E[SucceedInDuration: 1 second]
 <h2 id="agent-lifecycle"><a class="header" href="#agent-lifecycle">Agent Lifecycle</a></h2>
 <ol>
 <li>A graph is defined containing the relationships between nodes and the initial values for each of their accompanying actions.</li>
-<li>When creating an agent, call <code>my_graph.spawn(my_agent)</code> which will do the following for each node in the graph:
+<li>When creating an agent, call <code>my_graph.spawn(&amp;mut commands, my_agent)</code> which will do the following for each node in the graph:
 <ul>
 <li>Create an entity</li>
 <li>If it has any children, put their entity ids in an <code>Edges</code> component</li>
