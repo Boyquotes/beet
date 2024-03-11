@@ -354,18 +354,6 @@ fn print_action(mut commands: Commands, query: Query&lt;(Entity,&amp;PrintAction
 	}
 }
 <span class="boring">}</span></code></pre></pre>
-<h3 id="shared-actions"><a class="header" href="#shared-actions">Shared Actions</a></h3>
-<p>To solve the problem of, say every scoring system wanting a <code>Query&lt;&amp;mut Score&gt;</code> which would break parallelism, each action has a distinct component, and fields marked as <code>#[shared]</code> will be copied at the end of each tick when they change.</p>
-<p>The below action will add a <code>Score</code> component to this entity and update it whenever the <code>ScoringAction</code> changes.</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>#[action(system=scoring_action)]
-pub struct ScoringAction{
-	#[shared]
-	pub score: Score
-};
-<span class="boring">}</span></code></pre></pre>
-<p>Now we can have a utility selector that immutably queries the <code>Score</code> component of its children, allowing for full parallelism.</p>
 <h3 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h3>
 <p>Documentation is WIP, in the meantime have a look at <code>./crates/gamai/test/selectors</code> for examples of selectors and how they are used.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="beetmash"><a class="header" href="#beetmash">Beetmash</a></h1>
