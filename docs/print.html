@@ -173,6 +173,14 @@
 <iframe src="https://mrchantey.github.io/beet/play/?spawn-bee=&spawn-flower=&hide-graph=&graph=CAAAAAAAAABOZXcgTm9kZQEAAAAAAAAAAAAAAAAAAD%2FNzMw9AAAAAAAAAAA"></iframe>
 <p><em>Examples are built with the <a href="https://mrchantey.github.io/beet/play?spawn-bee=1">beet playground</a>, feel free to experiment with the bee's graph then spawn some to see the effect.</em></p>
 <h2 id="features"><a class="header" href="#features">Features</a></h2>
+<h3 id="-simple"><a class="header" href="#-simple">🐦 Simple</a></h3>
+<p>Beet is a <em>truely</em> ECS behavior library, this means that the behavior graph itsself is represented as a graph of entities which makes it incredibly easy to integrate into existing workflows:</p>
+<ul>
+<li>Visualization</li>
+<li>Serialization</li>
+<li>UI Integration</li>
+</ul>
+<p>Basically any tooling for working with Bevy worlds and prefabs also works with beet.</p>
 <h3 id="-modular"><a class="header" href="#-modular">🌳 Modular</a></h3>
 <p>Beet follows the ECS architecture, each node (entity) is simply a list of actions (components). Action Graphs can be composed of other graphs, allowing for epic code reusability.</p>
 <h3 id="-multi-paradigm"><a class="header" href="#-multi-paradigm">🌈 Multi-paradigm</a></h3>
@@ -332,12 +340,13 @@ E[SucceedInDuration: 1 second]
 <li>🧩 Multiple graphs per entity</li>
 </ul>
 <h2 id="overview"><a class="header" href="#overview">Overview</a></h2>
-<p>This is my third attempt at a modular AI architecture for ECS, the previous two attempts went the way of the dodo:</p>
+<p>This is my fourth attempt at a modular AI architecture for ECS, the previous two attempts went the way of the dodo:</p>
 <ol>
 <li>Shoehorn non-ecs solutions into bevy, which sucked mostly because of blackboards. </li>
 <li>Get clever with generics and create distinct types <em>per node</em> of a graph. This allowed for an entire graph to be stored as components on a single entity but was not great for a bunch of reasons. The dealbreaker was not being able to create/edit graphs at runtime.</li>
+<li>Create a <code>petgraph</code> of <code>Actions</code> then convert that into a prefab world</li>
 </ol>
-<p>I'm quite confident in this third approach, representing graphs as linked entities. </p>
+<p>I'm quite confident in this fourth, representing graphs as linked entities. </p>
 <h3 id="actions-1"><a class="header" href="#actions-1">Actions</a></h3>
 <p>Actions without children usually execute some behavior then return a <code>RunResult::Success</code> or a <code>RunResult::Failure</code>.</p>
 <p>An <code>action</code> is a bevy component struct with an associated system. Currently all actions must implement <code>Default, Clone, Component, serde::Serialize, serde::Deserialize</code>.</p>
