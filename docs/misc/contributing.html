@@ -168,10 +168,16 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="contributing"><a class="header" href="#contributing">Contributing</a></h1>
+<p>This repo is in a bit of a weird state for a rust project at the moment. I came from a web dev environment and in transitioning to rust I've carried a lot of project setup habits with me for better or worse.</p>
+<p>For example:</p>
+<ul>
+<li><code>mod.rs</code> files are automatically managed by <code>forky</code>, for this reason i have them set to hidden in <code>.vscode/settings.json</code></li>
+<li>I'm using <code>sweet</code> for running tests which is basically a <code>jest</code> clone</li>
+</ul>
 <h2 id="crate-structure"><a class="header" href="#crate-structure">Crate structure</a></h2>
 <pre class="mermaid">graph TB;
-    beet_ecs--&gt;beet;
-		beet_net--&gt;beet;
+    beet_ecs--&gt;beet_core;
+		beet_net--&gt;beet_core;
 </pre>
 
                     </main>

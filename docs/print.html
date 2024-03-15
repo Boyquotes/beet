@@ -169,12 +169,11 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="beet"><a class="header" href="#beet">Beet</a></h1>
-<p>Beet is a set of systems and components for building behavioral AI agents. It is built with <code>bevy_ecs</code> and suitable for game AI, robotics &amp; other performance-critical environments.</p>
+<p>Beet is a modular AI Behavior library built with <code>bevy</code>. It is suitable for creating autonomous agents in games, simulation and robotics.</p>
 <iframe src="https://mrchantey.github.io/beet/play/?spawn-bee=&spawn-flower=&hide-graph=&graph=CAAAAAAAAABOZXcgTm9kZQEAAAAAAAAAAAAAAAAAAD%2FNzMw9AAAAAAAAAAA"></iframe>
 <p><em>Examples are built with the <a href="https://mrchantey.github.io/beet/play?spawn-bee=1">beet playground</a>, feel free to experiment with the bee's graph then spawn some to see the effect.</em></p>
 <h2 id="features"><a class="header" href="#features">Features</a></h2>
-<h3 id="-powerful"><a class="header" href="#-powerful">💪 Powerful</a></h3>
-<p>Beet is a very thin layer of abstraction over <code>bevy</code> so part of it is interchangable.</p>
+<h3 id="-simple"><a class="header" href="#-simple">💪 Simple</a></h3>
 <p>Beet is a <em>truely</em> ECS behavior library, this means that the behavior graph itsself is represented as a graph of entities which makes it incredibly easy to integrate into existing workflows:</p>
 <ul>
 <li>Visualization</li>
@@ -187,7 +186,7 @@
 <h3 id="-multi-paradigm"><a class="header" href="#-multi-paradigm">🌈 Multi-paradigm</a></h3>
 <p>Mix-and-match techniques from different Behavior Selection approaches for each point in the graph. Currently only Behavior Tree and Utility AI techniques are supported, but the architecture is highly extendable, allowing for state-machine transitions, GOAP, etc.</p>
 <h3 id="-flexible"><a class="header" href="#-flexible">🌍 Flexible</a></h3>
-<p>Beet is built upon the lightweight <code>bevy_ecs</code> crate, which can target epic gaming rigs and tiny microcontrollers alike. Of course if you're using Bevy as your app framework there will be no need for blackboards etc but this is by no means a requirement. </p>
+<p>Beet can target epic gaming rigs and tiny microcontrollers alike. Of course if you're using Bevy as your app framework there will be no need for blackboards etc but this is by no means a requirement. </p>
 <blockquote>
 <p>If you would prefer to read code the <a href="https://github.com/mrchantey/beet/blob/main/crates/beet_web/src/bee/bee_game.rs">Beet Playground</a> is a great example of a non-ecs application that uses the <code>beet_net</code> pubsub framework to sync with the AI.</p>
 </blockquote>
@@ -332,7 +331,7 @@ E[SucceedInDuration: 1 second]
 </ol>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="features-1"><a class="header" href="#features-1">Features</a></h2>
 <ul>
-<li>🐦 Powered by <code>bevy_ecs</code> and <code>petgraph</code></li>
+<li>🐦 Powered by <code>bevy</code> and <code>petgraph</code></li>
 <li>🔥 Highly Parallel</li>
 <li>✍️ No Blackboard</li>
 <li>🌈 Multi-paradigm</li>
@@ -423,10 +422,16 @@ fn print_action(mut commands: Commands, query: Query&lt;(Entity,&amp;PrintAction
 <li><a href="https://ajmmertens.medium.com/742de7a18e59">Why storing state machines in ecs is a bad idea</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="contributing"><a class="header" href="#contributing">Contributing</a></h1>
+<p>This repo is in a bit of a weird state for a rust project at the moment. I came from a web dev environment and in transitioning to rust I've carried a lot of project setup habits with me for better or worse.</p>
+<p>For example:</p>
+<ul>
+<li><code>mod.rs</code> files are automatically managed by <code>forky</code>, for this reason i have them set to hidden in <code>.vscode/settings.json</code></li>
+<li>I'm using <code>sweet</code> for running tests which is basically a <code>jest</code> clone</li>
+</ul>
 <h2 id="crate-structure"><a class="header" href="#crate-structure">Crate structure</a></h2>
 <pre class="mermaid">graph TB;
-    beet_ecs--&gt;beet;
-		beet_net--&gt;beet;
+    beet_ecs--&gt;beet_core;
+		beet_net--&gt;beet_core;
 </pre>
 
                     </main>
