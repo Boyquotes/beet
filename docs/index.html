@@ -168,27 +168,49 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="beet"><a class="header" href="#beet">Beet</a></h1>
-<p>Beet is a modular AI Behavior library built with <code>bevy</code>. It is suitable for creating autonomous agents in games, simulation and robotics.</p>
+<p>Beet is a modular AI Behavior library that uses a novel <code>entity graph</code> approach to behavior selection. It is built with <code>bevy_ecs</code> and is suitable for creating autonomous agents in games, simulation and robotics.</p>
 <iframe src="https://mrchantey.github.io/beet/play/?spawn-bee=&spawn-flower=&hide-graph=&graph=CAAAAAAAAABOZXcgTm9kZQEAAAAAAAAAAAAAAAAAAD%2FNzMw9AAAAAAAAAAA"></iframe>
 <p><em>Examples are built with the <a href="https://mrchantey.github.io/beet/play?spawn-bee=1">beet playground</a>, feel free to experiment with the bee's graph then spawn some to see the effect.</em></p>
 <h2 id="features"><a class="header" href="#features">Features</a></h2>
-<h3 id="-simple"><a class="header" href="#-simple">💪 Simple</a></h3>
-<p>Beet is a <em>truely</em> ECS behavior library, this means that the behavior graph itsself is represented as a graph of entities which makes it incredibly easy to integrate into existing workflows:</p>
-<ul>
-<li>Visualization</li>
-<li>Serialization</li>
-<li>UI Integration</li>
-</ul>
-<p>This allows beet to ride on the wings (pun intended) of the incredible bevy community for all.</p>
-<h3 id="-modular"><a class="header" href="#-modular">🌳 Modular</a></h3>
-<p>Beet follows the ECS architecture, each node (entity) is simply a list of actions (components). Action Graphs can be composed of other graphs, allowing for epic code reusability.</p>
 <h3 id="-multi-paradigm"><a class="header" href="#-multi-paradigm">🌈 Multi-paradigm</a></h3>
-<p>Mix-and-match techniques from different Behavior Selection approaches for each point in the graph. Currently only Behavior Tree and Utility AI techniques are supported, but the architecture is highly extendable, allowing for state-machine transitions, GOAP, etc.</p>
-<h3 id="-flexible"><a class="header" href="#-flexible">🌍 Flexible</a></h3>
-<p>Beet can target epic gaming rigs and tiny microcontrollers alike. Of course if you're using Bevy as your app framework there will be no need for blackboards etc but this is by no means a requirement. </p>
-<blockquote>
-<p>If you would prefer to read code the <a href="https://github.com/mrchantey/beet/blob/main/crates/beet_web/src/bee/bee_game.rs">Beet Playground</a> is a great example of a non-ecs application that uses the <code>beet_net</code> pubsub framework to sync with the AI.</p>
-</blockquote>
+<p>Using entity graphs we can mix-and-match techniques from different behavior selection approaches for each point in the graph, for example we can easily combine utility and behavior tree concepts:</p>
+<pre class="mermaid">graph TB
+	a --&gt; b
+	a --&gt; c
+	c --&gt; d
+	c --&gt; e
+
+a[Utility Selector]
+c[Sequence Selector]
+b[action 1]
+d[action 2]
+e[action 3]
+</pre>
+<h4 id="implementation-status"><a class="header" href="#implementation-status">Implementation status:</a></h4>
+<div class="table-wrapper"><table><thead><tr><th>Approach</th><th>Status</th></tr></thead><tbody>
+<tr><td>Behavior Trees</td><td>✅</td></tr>
+<tr><td>Utility AI</td><td>✅</td></tr>
+<tr><td>State Machines</td><td>🚧</td></tr>
+<tr><td>GOAP</td><td>Planned</td></tr>
+<tr><td>ML</td><td>Possibly?</td></tr>
+</tbody></table>
+</div>
+<h3 id="-modular"><a class="header" href="#-modular">🌳 Modular</a></h3>
+<p>The same components can be reused at different places in the graph and graphs can be composed of other graphs, allowing for epic code reusability.</p>
+<h3 id="-ecosystem-friendly"><a class="header" href="#-ecosystem-friendly">🐦 Ecosystem friendly</a></h3>
+<p>All aspects of the library are just primitive components, and systems that work on them, which makes it incredibly easy to integrate into existing workflows, for example:</p>
+<ul>
+<li>Visualization - <code>bevy-mod-debugdump</code></li>
+<li>Serialization - <code>bevy_reflect</code></li>
+<li>UI - <code>bevy-inspector-egui</code></li>
+</ul>
+<p>This allows beet to ride on the wings of the incredible work already done by the bevy community.</p>
+<h3 id="-target-anything"><a class="header" href="#-target-anything">🎯 Target Anything</a></h3>
+<p>Beet only depends on the lightweight architectural components of the bevy library, ie <code>bevy_ecs</code>, which allows it to target epic gaming rigs and tiny microcontrollers alike.</p>
+<h2 id="drawbacks"><a class="header" href="#drawbacks">Drawbacks</a></h2>
+<p>Everything's a tradeoff in engineering, using an entity graph does have limitations:</p>
+<h3 id="indirection"><a class="header" href="#indirection">Indirection</a></h3>
+<p>Actions and the agents they work on are seperate queries, which is a cache missed and an ergonomic painpoint. Its my hope that this will largely be mittigated by the introduction of <a href="https://github.com/bevyengine/bevy/issues/3742">Entity Relations</a>.</p>
 
                     </main>
 
