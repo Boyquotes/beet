@@ -255,9 +255,9 @@ e[action 3]
 <li>Logical OR: <code>RUN child1 OTHERWISE child2 etc</code></li>
 </ul>
 </li>
-<li><code>UtilitySelector</code>
+<li><code>ScoreSelector</code>
 <ul>
-<li>An action that observes the current <code>Score</code> of each child and selects the highest to run.</li>
+<li>A Utility AI action that observes the current <code>Score</code> of each child and selects the highest to run.</li>
 </ul>
 </li>
 </ul>
@@ -312,7 +312,7 @@ e[action 3]
 	C--&gt;D;
 	C--&gt;E;
 
-A[UtilitySelector]
+A[ScoreSelector]
 B[
 	SetOnStart(Score::Weight(0.5))
 	----------------
@@ -328,7 +328,7 @@ E[SucceedInDuration: 1 second]
 </pre>
 <p>Lets go through each action in the diagram:</p>
 <ol>
-<li><code>UtilitySelector</code>: This will choose the child to run with the highest score.</li>
+<li><code>ScoreSelector</code>: This will choose the child to run with the highest score.</li>
 <li><code>SetOnStart</code>: Provides the parent with a constant score for this node.</li>
 <li><code>Wander</code>: The bee will move around the map somewhat randomly.</li>
 <li><code>TargetScorer</code>: This action has two roles:
