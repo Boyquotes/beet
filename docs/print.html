@@ -85,7 +85,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Beet</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tutorial/getting-started.html"><strong aria-hidden="true">1.1.</strong> Getting Started</a></li><li class="chapter-item expanded "><a href="tutorial/concepts-theory.html"><strong aria-hidden="true">1.2.</strong> Concepts - Theory</a></li><li class="chapter-item expanded "><a href="tutorial/concepts-example.html"><strong aria-hidden="true">1.3.</strong> Concepts - Example</a></li></ol></li><li class="chapter-item expanded "><a href="library/index.html"><strong aria-hidden="true">2.</strong> Library</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="library/actions.html"><strong aria-hidden="true">2.1.</strong> Actions</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="misc/roadmap.html">Roadmap</a></li><li class="chapter-item expanded affix "><a href="misc/resources.html">Resources</a></li><li class="chapter-item expanded affix "><a href="misc/contributing.html">Contributing</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Beet</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tutorial/getting-started.html"><strong aria-hidden="true">1.1.</strong> Getting Started</a></li><li class="chapter-item expanded "><a href="tutorial/concepts-theory.html"><strong aria-hidden="true">1.2.</strong> Concepts - Theory</a></li><li class="chapter-item expanded "><a href="tutorial/concepts-example.html"><strong aria-hidden="true">1.3.</strong> Concepts - Example</a></li></ol></li><li class="chapter-item expanded "><a href="library/index.html"><strong aria-hidden="true">2.</strong> Library</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="library/actions.html"><strong aria-hidden="true">2.1.</strong> Actions</a></li><li class="chapter-item expanded "><a href="library/selectors.html"><strong aria-hidden="true">2.2.</strong> Selectors</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="misc/roadmap.html">Roadmap</a></li><li class="chapter-item expanded affix "><a href="misc/resources.html">Resources</a></li><li class="chapter-item expanded affix "><a href="misc/contributing.html">Contributing</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -380,9 +380,9 @@ E[SucceedInDuration: 1 second]
 <h2 id="runresult"><a class="header" href="#runresult"><code>RunResult</code></a></h2>
 <p>Any action can decide to end the run state for its node by inserting a <code>RunResult</code>. Parents will usually listen for this change and somehow react to it, depending on whether it was <code>RunResult::Success</code> or <code>RunResult::Failure</code>.</p>
 <p>Thats it! The goal is for everything else to be optional, although the library still has some cleaning up to do.</p>
-<div style="break-before: page; page-break-before: always;"></div><h3 id="example-actions"><a class="header" href="#example-actions">Example Actions</a></h3>
+<div style="break-before: page; page-break-before: always;"></div><h3 id="actions-1"><a class="header" href="#actions-1">Actions</a></h3>
 <blockquote>
-<p>Currently actions must implement a whole bunch of derives, ie reflect, hence the <code>#[derive_action]</code> crutch for lazy people. I'm working on getting this down to as few as possible.</p>
+<p>Currently actions must implement a whole bunch of derives, ie reflect, hence the <code>#[derive_action]</code> wrapper for lazy people like me. I'm working on getting this down to as few as possible.</p>
 </blockquote>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -427,6 +427,8 @@ fn translate_agent(
 	}
 }
 <span class="boring">}</span></code></pre></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="selectors-1"><a class="header" href="#selectors-1">Selectors</a></h1>
+<p>These docs are a wip, in the meantime check out the <a href="https://github.com/mrchantey/beet/blob/main/crates/beet_ecs/src/ecs_nodes/selectors/sequence_selector.rs">SequenceSelector</a> as an example.</p>
 <div style="break-before: page; page-break-before: always;"></div><div class="table-wrapper"><table><thead><tr><th>Roadmap</th><th></th></tr></thead><tbody>
 <tr><td>Behavior Trees</td><td>✅</td></tr>
 <tr><td>State Trees</td><td>🚧</td></tr>
