@@ -84,7 +84,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html" class="active"><strong aria-hidden="true">1.</strong> Beet</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tutorial/getting-started.html"><strong aria-hidden="true">1.1.</strong> Getting Started</a></li><li class="chapter-item expanded "><a href="tutorial/concepts-theory.html"><strong aria-hidden="true">1.2.</strong> Concepts - Theory</a></li><li class="chapter-item expanded "><a href="tutorial/concepts-example.html"><strong aria-hidden="true">1.3.</strong> Concepts - Example</a></li></ol></li><li class="chapter-item expanded "><a href="ecs/index.html"><strong aria-hidden="true">2.</strong> ECS</a></li><li class="chapter-item expanded "><a href="beetmash/index.html"><strong aria-hidden="true">3.</strong> Beetmash</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><a href="misc/roadmap.html">Roadmap</a></li><li class="chapter-item expanded affix "><a href="misc/resources.html">Resources</a></li><li class="chapter-item expanded affix "><a href="misc/contributing.html">Contributing</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html" class="active"><strong aria-hidden="true">1.</strong> Beet</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tutorial/getting-started.html"><strong aria-hidden="true">1.1.</strong> Getting Started</a></li><li class="chapter-item expanded "><a href="tutorial/concepts-theory.html"><strong aria-hidden="true">1.2.</strong> Concepts - Theory</a></li><li class="chapter-item expanded "><a href="tutorial/concepts-example.html"><strong aria-hidden="true">1.3.</strong> Concepts - Example</a></li></ol></li><li class="chapter-item expanded "><a href="library/index.html"><strong aria-hidden="true">2.</strong> Library</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="library/actions.html"><strong aria-hidden="true">2.1.</strong> Actions</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="misc/roadmap.html">Roadmap</a></li><li class="chapter-item expanded affix "><a href="misc/resources.html">Resources</a></li><li class="chapter-item expanded affix "><a href="misc/contributing.html">Contributing</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -170,47 +170,66 @@
                         <h1 id="beet"><a class="header" href="#beet">Beet</a></h1>
 <p>Beet is a modular AI Behavior library that uses a novel <code>entity graph</code> approach to behavior selection. It is built with <code>bevy_ecs</code> and is suitable for creating autonomous agents in games, simulation and robotics.</p>
 <iframe src="https://mrchantey.github.io/beet/play/?spawn-bee=&spawn-flower=&hide-graph=&graph=CAAAAAAAAABOZXcgTm9kZQEAAAAAAAAAAAAAAAAAAD%2FNzMw9AAAAAAAAAAA"></iframe>
-<p><em>Examples are built with the <a href="https://mrchantey.github.io/beet/play?spawn-bee=1">beet playground</a>, feel free to experiment with the bee's graph then spawn some to see the effect.</em></p>
-<h2 id="features"><a class="header" href="#features">Features</a></h2>
-<h3 id="-multi-paradigm"><a class="header" href="#-multi-paradigm">🌈 Multi-paradigm</a></h3>
-<p>Using entity graphs we can mix-and-match techniques from different behavior selection approaches for each point in the graph, for example we can easily combine utility and behavior tree concepts:</p>
-<pre class="mermaid">graph TB
-	a --&gt; b
-	a --&gt; c
-	c --&gt; d
-	c --&gt; e
+<h2 id="1-define-an-action"><a class="header" href="#1-define-an-action">1. Define an action</a></h2>
+<p>Actions are just a component-system pair</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[Derive(Component, Action)]
+#[action(system=log_on_run)]
+pub struct LogOnRun(pub value: String);
 
-a[Utility Selector]
-c[Sequence Selector]
-b[action 1]
-d[action 2]
-e[action 3]
-</pre>
-<h4 id="implementation-status"><a class="header" href="#implementation-status">Implementation status:</a></h4>
-<div class="table-wrapper"><table><thead><tr><th>Approach</th><th>Status</th></tr></thead><tbody>
-<tr><td>Behavior Trees</td><td>✅</td></tr>
-<tr><td>Utility AI</td><td>✅</td></tr>
-<tr><td>State Machines</td><td>🚧</td></tr>
-<tr><td>GOAP</td><td>Planned</td></tr>
-<tr><td>ML</td><td>Possibly?</td></tr>
-</tbody></table>
-</div>
-<h3 id="-modular"><a class="header" href="#-modular">🌳 Modular</a></h3>
-<p>The same components can be reused at different places in the graph and graphs can be composed of other graphs, allowing for epic code reusability.</p>
-<h3 id="-ecosystem-friendly"><a class="header" href="#-ecosystem-friendly">🐦 Ecosystem friendly</a></h3>
-<p>All aspects of the library are just primitive components, and systems that work on them, which makes it incredibly easy to integrate into existing workflows, for example:</p>
+fn log_on_run(query: Query&lt;&amp;PrintAction, Added&lt;Running&gt;){
+	for (action) in query.iter(){
+		println!(&quot;{}&quot;, action.0);
+	}
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="2-define-a-graph"><a class="header" href="#2-define-a-graph">2. Define a graph</a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let my_graph = BeetNode::new(SequenceSelector)
+    .child((
+			// any component can be used here
+			LogOnRun(&quot;Hello&quot;),
+			SetOnRun(RunResult::Success)
+		))
+    .child((
+			LogOnRun(&quot;World&quot;), 
+			SetOnRun(RunResult::Success)
+		))	
+<span class="boring">}</span></code></pre></pre>
+<h2 id="3-spawn-the-graph-for-an-agent"><a class="header" href="#3-spawn-the-graph-for-an-agent">3. Spawn the graph for an agent</a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let my_agent = world.spawn_empty().id();
+my_graph.spawn(world, my_agent);
+<span class="boring">}</span></code></pre></pre>
+<h2 id="features"><a class="header" href="#features">Features</a></h2>
+<h4 id="-multi-paradigm"><a class="header" href="#-multi-paradigm">🌈 Multi-paradigm</a></h4>
+<p>The flexibility of entity graphs allows us to mix-and-match techniques from different paradigms, ie transitions, utility selectors, etc.</p>
+<h4 id="-modular"><a class="header" href="#-modular">🌳 Modular</a></h4>
+<p>Using an entity graph unlocks epic flexibility:</p>
 <ul>
-<li>Visualization - <code>bevy-mod-debugdump</code></li>
-<li>Serialization - <code>bevy_reflect</code></li>
-<li>UI - <code>bevy-inspector-egui</code></li>
+<li>Components and systems are reused anywhere in the graph and graphs can be composed of other graphs</li>
+<li>Runtime composition</li>
+<li>Multiple graphs per agent</li>
+<li>No-agent graphs</li>
 </ul>
-<p>This allows beet to ride on the wings of the incredible work already done by the bevy community.</p>
-<h3 id="-target-anything"><a class="header" href="#-target-anything">🎯 Target Anything</a></h3>
-<p>Beet only depends on the lightweight architectural components of the bevy library, ie <code>bevy_ecs</code>, which allows it to target epic gaming rigs and tiny microcontrollers alike.</p>
+<h4 id="-ecosystem-friendly"><a class="header" href="#-ecosystem-friendly">🐦 Ecosystem friendly</a></h4>
+<p>All aspects of the library are simple components and systems, which means no blackboard and easy integration with existing bevy tooling.</p>
+<h4 id="-target-anything"><a class="header" href="#-target-anything">🎯 Target Anything</a></h4>
+<p>Beet only depends on the lightweight architectural components of the bevy library, ie <code>bevy_ecs</code>, which allows it to target multi-core gaming rigs and tiny microcontrollers alike.</p>
+<h4 id="-highly-parallel"><a class="header" href="#-highly-parallel">🔥 Highly Parallel</a></h4>
+<p>By default every action system is run in parallel with no built-in sync points.</p>
 <h2 id="drawbacks"><a class="header" href="#drawbacks">Drawbacks</a></h2>
-<p>Everything's a tradeoff in engineering, using an entity graph does have limitations:</p>
-<h3 id="indirection"><a class="header" href="#indirection">Indirection</a></h3>
-<p>Actions and the agents they work on are seperate queries, which is a cache missed and an ergonomic painpoint. Its my hope that this will largely be mittigated by the introduction of <a href="https://github.com/bevyengine/bevy/issues/3742">Entity Relations</a>.</p>
+<h4 id="indirection"><a class="header" href="#indirection">Indirection</a></h4>
+<p>Actions and the agents they work on are seperate queries, which is a potential cache miss and ergonomic painpoint. Its my hope this will be addressed by the introduction of <a href="https://github.com/bevyengine/bevy/issues/3742">Entity Relations</a>.</p>
+<h4 id="multi-tick"><a class="header" href="#multi-tick">Multi-tick</a></h4>
+<p>Parallelism means graph traversals are addressed in the next tick which is fine for most cases, but if frame perfect ticks are required it will need to be done manually. There are currently two ways of doing this:</p>
+<ul>
+<li>Arrange and/or duplicate the systems in a specific order with <code>apply_deferred </code> sync points</li>
+<li>Use a custom schedule and update it on a loop until all traversals are complete</li>
+</ul>
 
                     </main>
 
