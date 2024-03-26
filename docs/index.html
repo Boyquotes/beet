@@ -170,40 +170,6 @@
                         <h1 id="beet"><a class="header" href="#beet">Beet</a></h1>
 <p>Beet is a modular AI Behavior library that uses a novel <code>entity graph</code> approach to behavior selection. It is built with <code>bevy_ecs</code> and is suitable for creating autonomous agents in games, simulation and robotics.</p>
 <iframe src="https://mrchantey.github.io/beet/play/?spawn-bee=&spawn-flower=&hide-graph=&graph=CAAAAAAAAABOZXcgTm9kZQEAAAAAAAAAAAAAAAAAAD%2FNzMw9AAAAAAAAAAA"></iframe>
-<h2 id="1-define-an-action"><a class="header" href="#1-define-an-action">1. Define an action</a></h2>
-<p>Actions are just a component-system pair</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>#[Derive(Component, Action)]
-#[action(system=log_on_run)]
-pub struct LogOnRun(pub value: String);
-
-fn log_on_run(query: Query&lt;&amp;PrintAction, Added&lt;Running&gt;){
-	for (action) in query.iter(){
-		println!(&quot;{}&quot;, action.0);
-	}
-}
-<span class="boring">}</span></code></pre></pre>
-<h2 id="2-define-a-graph"><a class="header" href="#2-define-a-graph">2. Define a graph</a></h2>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>let my_graph = BeetNode::new(SequenceSelector)
-    .child((
-			// any component can be used here
-			LogOnRun(&quot;Hello&quot;),
-			SetOnRun(RunResult::Success)
-		))
-    .child((
-			LogOnRun(&quot;World&quot;), 
-			SetOnRun(RunResult::Success)
-		))	
-<span class="boring">}</span></code></pre></pre>
-<h2 id="3-spawn-the-graph-for-an-agent"><a class="header" href="#3-spawn-the-graph-for-an-agent">3. Spawn the graph for an agent</a></h2>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>let my_agent = world.spawn_empty().id();
-my_graph.spawn(world, my_agent);
-<span class="boring">}</span></code></pre></pre>
 <h2 id="features"><a class="header" href="#features">Features</a></h2>
 <h4 id="-multi-paradigm"><a class="header" href="#-multi-paradigm">🌈 Multi-paradigm</a></h4>
 <p>The flexibility of entity graphs allows us to mix-and-match techniques from different paradigms, ie transitions, utility selectors, etc.</p>
@@ -221,6 +187,39 @@ my_graph.spawn(world, my_agent);
 <p>Beet only depends on the lightweight architectural components of the bevy library, ie <code>bevy_ecs</code>, which allows it to target multi-core gaming rigs and tiny microcontrollers alike.</p>
 <h4 id="-highly-parallel"><a class="header" href="#-highly-parallel">🔥 Highly Parallel</a></h4>
 <p>By default every action system is run in parallel with no built-in sync points.</p>
+<h2 id="quickstart"><a class="header" href="#quickstart">Quickstart</a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// ## 1. define an action
+
+// actions are just a component-system pair
+#[Derive(Component, Action)]
+#[action(system=log_on_run)]
+pub struct LogOnRun(pub value: String);
+
+fn log_on_run(query: Query&lt;&amp;PrintAction, Added&lt;Running&gt;){
+	for (action) in query.iter(){
+		println!(&quot;{}&quot;, action.0);
+	}
+}
+
+
+// ## 2. define a graph
+let my_graph = BeetNode::new(SequenceSelector)
+  .child((
+    // any component can be used here
+    LogOnRun(&quot;Hello&quot;),
+    SetOnRun(RunResult::Success)
+  ))
+  .child((
+    LogOnRun(&quot;World&quot;), 
+    SetOnRun(RunResult::Success)
+  ));
+
+// ## 3. Spawn the graph for an agent
+let my_agent = world.spawn_empty().id();
+my_graph.spawn(world, my_agent);
+<span class="boring">}</span></code></pre></pre>
 <h2 id="drawbacks"><a class="header" href="#drawbacks">Drawbacks</a></h2>
 <h4 id="indirection"><a class="header" href="#indirection">Indirection</a></h4>
 <p>Actions and the agents they work on are seperate queries, which is a potential cache miss and ergonomic painpoint. Its my hope this will be addressed by the introduction of <a href="https://github.com/bevyengine/bevy/issues/3742">Entity Relations</a>.</p>
