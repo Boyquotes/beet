@@ -188,9 +188,7 @@
 <h4 id="-highly-parallel"><a class="header" href="#-highly-parallel">🔥 Highly Parallel</a></h4>
 <p>By default every action system is run in parallel with no built-in sync points.</p>
 <h2 id="quickstart"><a class="header" href="#quickstart">Quickstart</a></h2>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>// ## 1. define an action
+<pre><pre class="playground"><code class="language-rust">// ## 1. define an action
 
 // actions are just a component-system pair
 #[Derive(Component, Action)]
@@ -203,23 +201,20 @@ fn log_on_run(query: Query&lt;&amp;PrintAction, Added&lt;Running&gt;){
 	}
 }
 
-
-// ## 2. define a graph
-let my_graph = BeetNode::new(SequenceSelector)
-  .child((
-    // any component can be used here
-    LogOnRun(&quot;Hello&quot;),
-    SetOnRun(RunResult::Success)
-  ))
-  .child((
-    LogOnRun(&quot;World&quot;), 
-    SetOnRun(RunResult::Success)
-  ));
-
-// ## 3. Spawn the graph for an agent
-let my_agent = world.spawn_empty().id();
-my_graph.spawn(world, my_agent);
-<span class="boring">}</span></code></pre></pre>
+fn main(){
+  let mut world = World::new();
+  let my_agent = world.spawn_empty().id();
+  let my_graph = BeetBuilder::new(SequenceSelector)
+    .child((
+      // any component can be used here
+      LogOnRun(&quot;Hello&quot;),
+      SetOnRun(RunResult::Success)
+    ))
+    .child((
+      LogOnRun(&quot;World&quot;), 
+      SetOnRun(RunResult::Success)
+    )).spawn(world, my_agent);
+}</code></pre></pre>
 <h2 id="drawbacks"><a class="header" href="#drawbacks">Drawbacks</a></h2>
 <h4 id="indirection"><a class="header" href="#indirection">Indirection</a></h4>
 <p>Actions and the agents they work on are seperate queries, which is a potential cache miss and ergonomic painpoint. Its my hope this will be addressed by the introduction of <a href="https://github.com/bevyengine/bevy/issues/3742">Entity Relations</a>.</p>
