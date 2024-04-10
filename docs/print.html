@@ -85,7 +85,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Beet</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="overview/ai-strategy.html"><strong aria-hidden="true">1.1.</strong> AI Strategy</a></li><li class="chapter-item expanded "><a href="tutorial/getting-started.html"><strong aria-hidden="true">1.2.</strong> Getting Started</a></li><li class="chapter-item expanded "><a href="tutorial/concepts-theory.html"><strong aria-hidden="true">1.3.</strong> Concepts - Theory</a></li><li class="chapter-item expanded "><a href="tutorial/concepts-example.html"><strong aria-hidden="true">1.4.</strong> Concepts - Example</a></li></ol></li><li class="chapter-item expanded "><a href="library/index.html"><strong aria-hidden="true">2.</strong> Library</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="library/actions.html"><strong aria-hidden="true">2.1.</strong> Actions</a></li><li class="chapter-item expanded "><a href="library/selectors.html"><strong aria-hidden="true">2.2.</strong> Selectors</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="misc/roadmap.html">Roadmap</a></li><li class="chapter-item expanded affix "><a href="misc/resources.html">Resources</a></li><li class="chapter-item expanded affix "><a href="misc/contributing.html">Contributing</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Beet</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="overview/ai-strategy.html"><strong aria-hidden="true">1.1.</strong> AI Strategy</a></li><li class="chapter-item expanded "><a href="overview/concepts.html"><strong aria-hidden="true">1.2.</strong> Concepts</a></li><li class="chapter-item expanded "><a href="overview/demo.html"><strong aria-hidden="true">1.3.</strong> Demo</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="misc/roadmap.html">Roadmap</a></li><li class="chapter-item expanded affix "><a href="misc/resources.html">Resources</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -169,21 +169,20 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="beet"><a class="header" href="#beet">Beet</a></h1>
-<p>Beet is a modular AI behavior library for games and robotics. </p>
-<p>It is built with <code>bevy</code> and applies the battle-tested parent-child relationship to behaviors.
+<p>Beet is a modular AI behavior library for games and robotics, with the goal of being a single point of coordination across the spectrum of AI strategies.</p>
+<p>It is built with <code>bevy</code> and harnesses parent-child relationships for behavior selection.
 This is proving to be an intuitive workflow to those familiar with ecs, and allows for high levels of modularity and flexibility.</p>
 <h2 id="quick-links"><a class="header" href="#quick-links">Quick Links</a></h2>
 <ul>
 <li><a href="./overview/ai-strategy.html">AI Strategy</a></li>
-<li><a href="./tutorial/concepts-theory.html">Concepts</a></li>
-<li><a href="./tutorial/concepts-example.html">Example</a></li>
+<li><a href="./overview/concepts.html">Concepts</a></li>
 <li><a href="https://app.beetmash.com/">Beetmash Web Editor</a></li>
 </ul>
 <h2 id="features"><a class="header" href="#features">Features</a></h2>
 <h4 id="-multi-paradigm"><a class="header" href="#-multi-paradigm">🌈 Multi-paradigm</a></h4>
-<p>The flexibility of entity graphs allows us to mix-and-match techniques from different paradigms, ie behavior trees, utility selectors, etc.</p>
-<h4 id="-modular"><a class="header" href="#-modular">🌳 Modular</a></h4>
-<p>Using an entity graph unlocks epic flexibility, components and systems are reused anywhere in the graph and graphs can be composed of other graphs.</p>
+<p>The flexibility of entity graphs allows us to mix-and-match techniques from different paradigms, ie behavior trees, utility selectors, LLMs, etc.</p>
+<h4 id="-modular-trees"><a class="header" href="#-modular-trees">🌳 Modular Trees</a></h4>
+<p>Behaviors are composable trees of entities and actions are reusable.</p>
 <h4 id="-ecosystem-friendly"><a class="header" href="#-ecosystem-friendly">🐦 Ecosystem friendly</a></h4>
 <p>All aspects of the library are simple components and systems, which means no blackboard and easy integration with existing bevy tooling.</p>
 <h4 id="-target-anything"><a class="header" href="#-target-anything">🎯 Target Anything</a></h4>
@@ -209,14 +208,14 @@ fn main() {
 	let mut app = App::new();
 
 	// the BeetSystemsPlugin adds each action system
-	// and utility systems that clean up run state
+	// and some helpers that clean up run state
 	app.add_plugins(BeetSystemsPlugin::&lt;(
       SequenceSelector, 
       InsertOnRun&lt;RunResult&gt;
       LogOnRun, 
     ), Update&gt;::default());
 
-	// behavior graphs are regular entity hierarchies!
+	// behavior graphs are regular entity hierarchies
 	app.world_mut()
 		.spawn((SequenceSelector::default(), Running))
 		.with_children(|parent| {
@@ -268,231 +267,73 @@ World
 <li>Hardcode actions into a single system</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="ai-strategy"><a class="header" href="#ai-strategy">AI Strategy</a></h1>
-<h2 id="the-landscape"><a class="header" href="#the-landscape">The Landscape</a></h2>
-<p>Behavioral AI strategies are often described as being somewhere  on a spectrum of of tradeoffs.</p>
+<p>Behavioral AI strategies are often described as being somewhere on a spectrum of of tradeoffs.</p>
 <div class="table-wrapper"><table><thead><tr><th>Controllable, Predictable, Fast</th><th></th><th></th><th>Emergent, Creative, Slow</th></tr></thead><tbody>
-<tr><td>A* Navigation</td><td>State Machines</td><td>Utility AI</td><td>Genetic Algorithms</td></tr>
+<tr><td>Pathfinding Algorithms (A*)</td><td>State Machines</td><td>Utility AI</td><td>Genetic Algorithms</td></tr>
 <tr><td>Hardcoded rules</td><td>Behavior Trees</td><td>GOAP</td><td>Neural Networks</td></tr>
 <tr><td></td><td></td><td></td><td>LLMs</td></tr>
 </tbody></table>
 </div>
-<p>Just like human decision making we usually want some combination for a given task, for example: </p>
+<p>Just like human decision making we usually want some combination for a given task, for example (this is just illustrative)</p>
 <div class="table-wrapper"><table><thead><tr><th>Decision</th><th>Time scale</th><th>AI Strategy</th><th>Human Analogy</th></tr></thead><tbody>
-<tr><td>Where should we go for coffee?</td><td>tens of seconds</td><td>LLMs</td><td>Neo cortex</td></tr>
-<tr><td>How should I place my feet while walking?</td><td>seconds</td><td>Utility AI</td><td>Lower brain</td></tr>
-<tr><td>Should I drop the cup if its scalding my hand?</td><td>milliseconds</td><td>Hardcoded rules</td><td>Central Nervous System</td></tr>
+<tr><td>Where should we go for coffee?</td><td>tens of seconds</td><td>LLMs</td><td>Higher-order thinking</td></tr>
+<tr><td>How should I place my feet while walking?</td><td>seconds</td><td>Utility AI</td><td>Lower-order thinking</td></tr>
+<tr><td>Should I drop the cup if its scalding my hand?</td><td>milliseconds</td><td>Hardcoded rules</td><td>Reflexes</td></tr>
 </tbody></table>
 </div>
 <h2 id="beetss-approach"><a class="header" href="#beetss-approach">Beets's Approach</a></h2>
-<p>The 'go and get coffee' task requires several strategies to work in unison and Beet aims to be a single point of coordination for such tasks. Its also important for these to be made modular, if a member of the community writes a great 'go and get coffee' script they should be able to share it for reuse in entirely different contexts, ideally across games <em>and</em> robotics where possible.</p>
-<h2 id="the-future"><a class="header" href="#the-future">The future</a></h2>
-<p>Its possible at some point in the future we'll </p>
-<p>compile time checked
-runtime readjust strategy every 5 mins rts</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="getting-started"><a class="header" href="#getting-started">Getting Started</a></h1>
-<blockquote>
-<p>If you would prefer to read code than documentation, the <a href="https://github.com/mrchantey/beet/blob/main/crates/beet_web/src/bee/bee_game.rs">Beet Playground</a> is an example of a non-bevy app built with <code>beet</code>.</p>
-</blockquote>
-<p>By the end of this chapter you'll have a strong understanding of how to build the following demo:</p>
-<iframe src="https://mrchantey.github.io/beet/play/?spawn-bee=1"></iframe>
+<p>The 'go and get coffee' task requires several strategies to work in unison and Beet aims to be a single point of coordination for such behaviors. </p>
+<p>Its also important for these to be made modular, if a member of the community writes a great 'go and get coffee' behavior they should be able to share it for reuse in entirely different contexts, ideally across games <em>and</em> robotics where possible.</p>
+<h2 id="ai-designed-by-ai"><a class="header" href="#ai-designed-by-ai">AI designed by AI</a></h2>
+<p>At some point it may be worth exploring the use of advanced AI models in the design of lower level decision-making systems, for example:</p>
+<ul>
+<li>During development - A model generates a behavior tree for some task, to be fine-tuned by developers and designers.</li>
+<li>Runtime - The enemy AI for an RTS may run an expensive model remotely every few minutes to adjust the <em>strategy</em>, but the frame-by-frame decisions are made locally.</li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="concepts"><a class="header" href="#concepts">Concepts</a></h1>
 <!-- keep all code references in sync with docs please -->
-<p>The terminology from this library is a wip and will likely change.</p>
-<h2 id="actions"><a class="header" href="#actions"><code>Actions</code></a></h2>
-<p><em>aka <code>tasks, behaviors</code></em></p>
-<p>Actions are something to be performed for a given node, in beet this a combination of a <code>Component</code>, the data required for the task, and a <code>System</code>, the accompanying logic for that task. They usually either get an agent to do something or send information to their parent.</p>
-<p>Here are some examples of actions:</p>
-<ul>
-<li><code>SucceedInDuration</code>
-<ul>
-<li>After a given <code>Duration</code>, set <code>RunResult</code> to <code>RunResult::Successs</code></li>
-</ul>
-</li>
-<li><code>Hover</code>
-<ul>
-<li>The entity will slowly move up and down in a sinusoidal pattern.</li>
-</ul>
-</li>
-</ul>
-<p>Notice the primitive nature of these actions, they could be combined to create a &quot;hover for duration&quot; node.</p>
-<h3 id="evaluator-actions"><a class="header" href="#evaluator-actions"><code>Evaluator Actions</code></a></h3>
-<p>Sometimes we need to notify a parent of how favorable it would be for a behavior to run, a common example is setting the <code>Score</code>.</p>
-<h2 id="selectors"><a class="header" href="#selectors"><code>Selectors</code></a></h2>
-<p><em>aka <code>thinkers, parent nodes, composite nodes</code></em></p>
-<p>Selectors are added to parent nodes and decide which children to run. </p>
-<p>Here are some examples of selectors:</p>
-<ul>
-<li><code>SequenceSelector</code>
-<ul>
-<li>An action that runs all of its children in order until one fails.</li>
-<li>Logical AND - <code>RUN child1 THEN child2 etc</code></li>
-</ul>
-</li>
-<li><code>FallbackSelector</code>
-<ul>
-<li>An action that runs all of its children in order until one succeeds.</li>
-<li>Logical OR: <code>RUN child1 OTHERWISE child2 etc</code></li>
-</ul>
-</li>
-<li><code>ScoreSelector</code>
-<ul>
-<li>A Utility AI action that observes the current <code>Score</code> of each child and selects the highest to run.</li>
-</ul>
-</li>
-</ul>
+<p>The scope of beet spans several AI strategies, many with their own terminology, so I'm doing my best to use terms that fit. If you have any ideas please create an issue.</p>
+<h2 id="everything-is-an-action"><a class="header" href="#everything-is-an-action">Everything is an <code>Action</code></a></h2>
+<p>Actions are simply a combination of a <code>Component</code> and a <code>System</code>. They are the single primitive from which all behaviors are built, whether modifying the world or the behavior graph.</p>
+<p>For the goal of modularity they are usually very simple, for example <code>Translate</code> and <code>SucceedInDuration</code> could be combined to create a <code>Translate For Duration</code> behavior.</p>
+<h2 id="terminology"><a class="header" href="#terminology">Terminology</a></h2>
+<p>These terms are not nessecarily types in the codebase but may be helpful when describing Beet principles.</p>
+<div class="table-wrapper"><table><thead><tr><th>Name</th><th>Descrition</th><th>Example</th></tr></thead><tbody>
+<tr><td>Agent</td><td>A entity that has an associated behavior, usually as a child</td><td><code>Enemy</code></td></tr>
+<tr><td>Behavior</td><td>An entity that contains at least one action, and possibly child behaviors</td><td><code>Attack Target</code></td></tr>
+<tr><td>Action</td><td>A component-system pair</td><td><code>Swing Sword</code></td></tr>
+</tbody></table>
+</div>
+<h3 id="action-types"><a class="header" href="#action-types">Action types</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Name</th><th>Descrition</th><th>Example</th></tr></thead><tbody>
+<tr><td>Agent Action</td><td>Modifies the associated agent</td><td><a href="https://github.com/mrchantey/beet/blob/main/crates/beet_core/src/core_module/translate.rs"><code>Translate</code></a></td></tr>
+<tr><td>World Action</td><td>Modifies entities or resources external to the tree</td><td><a href="overview/:https://github.com/mrchantey/beet/blob/main/crates/beet_core/src/steering/steering_actions/despawn_steer_target.rs"><code>DespawnSteerTarget</code></a></td></tr>
+<tr><td>Selector Action</td><td>Choose which child to run, adds/removes <code>Running</code></td><td><a href="https://github.com/mrchantey/beet/blob/main/crates/beet_ecs/src/ecs_module/selectors/sequence_selector.rs"><code>SequenceSelector</code></a></td></tr>
+<tr><td>Evaluator Action</td><td>Modifies the <code>Score</code>, to be interpreted a <a href="https://github.com/mrchantey/beet/blob/main/crates/beet_ecs/src/ecs_module/selectors/score_selector.rs"><code>ScoreSelector</code></a></td><td><a href="https://github.com/mrchantey/beet/blob/main/crates/beet_core/src/steering/steering_actions/score_steer_target.rs"><code>ScoreSteerTarget</code></a></td></tr>
+<tr><td>Lifecycle Action</td><td>Does something as a reaction to the run state changing</td><td><a href="https://github.com/mrchantey/beet/blob/84047347bd0f1ca371503718d5cb0a0dd265709f/crates/beet_ecs/src/ecs_module/actions/lifecycle_actions.rs#L41"><code>InsertOnRun&lt;T&gt;</code></a></td></tr>
+</tbody></table>
+</div>
 <h2 id="common-components"><a class="header" href="#common-components">Common Components</a></h2>
+<p>These components are used by actions to determine run-state and make decisions.</p>
 <ul>
-<li><code>Running</code>
-<ul>
-<li>Indicate this node is currently running.</li>
+<li><a href="https://github.com/mrchantey/beet/blob/84047347bd0f1ca371503718d5cb0a0dd265709f/crates/beet_ecs/src/node/running.rs#L12-L13"><code>Running</code></a> - Indicate this node is currently running.</li>
+<li><a href="https://github.com/mrchantey/beet/blob/84047347bd0f1ca371503718d5cb0a0dd265709f/crates/beet_ecs/src/node/running.rs#L32"><code>RunResult</code></a> - Notify their parent that this node has finished.</li>
+<li><a href="https://github.com/mrchantey/beet/blob/84047347bd0f1ca371503718d5cb0a0dd265709f/crates/beet_ecs/src/node/score.rs#L32"><code>Score</code></a> - Notify the parent how favourable it would be for this node to run.</li>
+<li><a href="https://github.com/mrchantey/beet/blob/84047347bd0f1ca371503718d5cb0a0dd265709f/crates/beet_ecs/src/node/run_timer.rs"><code>RunTimer</code></a> - Time since an action started/stopped.</li>
 </ul>
-</li>
-<li><code>RunResult</code>
-<ul>
-<li>Notify their parent that this node has finished.</li>
-</ul>
-</li>
-<li><code>Score</code>
-<ul>
-<li>Notify the parent how favourable it would be for this node to run.</li>
-</ul>
-</li>
-<li><code>RunTimer</code>
-<ul>
-<li>How long the action has been running for.</li>
-</ul>
-</li>
-</ul>
-<h2 id="graph-terminology"><a class="header" href="#graph-terminology">Graph Terminology</a></h2>
-<ul>
-<li><code>BehaviorNode</code>
-<ul>
-<li>Literally a wrapper of a <code>Vec&lt;Action&gt;</code>. These can be either leaf or parent nodes.</li>
-</ul>
-</li>
-<li><code>BehaviorGraph</code>
-<ul>
-<li>A <code>petgraph</code> collection of Nodes and directed links between them. </li>
-<li>It <em>can</em> be cyclic but I prefer not to do that because it makes graphs more reusable and easier to reason about.</li>
-</ul>
-</li>
-<li><code>Agent</code>
-<ul>
-<li>Any entity that has some components, ie ie <code>Transform</code> or <code>MotorSpeed</code>, to be read or modified by the behavior graph.</li>
-</ul>
-</li>
-</ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="getting-started-1"><a class="header" href="#getting-started-1">Getting Started</a></h1>
-<!-- keep all code references in sync with docs please -->
-<h2 id="worked-example"><a class="header" href="#worked-example">Worked Example</a></h2>
-<pre class="mermaid">graph TB;
-  A--&gt;B;
-  A--&gt;C;
-	C--&gt;D;
-	C--&gt;E;
-
-A[ScoreSelector]
-B[
-	SetOnStart - Score::Weight - 0.5
-	----------------
-	Wander
-]
-C[
-	TargetScorer: flower
-	------------------------
-	SequenceSelector
-]
-D[Seek]
-E[SucceedInDuration: 1 second]
-</pre>
-<p>Lets go through each action in the diagram:</p>
-<ol>
-<li><code>ScoreSelector</code>: This will choose the child to run with the highest score.</li>
-<li><code>SetOnStart</code>: Provides the parent with a constant score for this node.</li>
-<li><code>Wander</code>: The bee will move around the map somewhat randomly.</li>
-<li><code>TargetScorer</code>: This action has two roles:
-<ul>
-<li>Provide the parent with a score depending on whether a target named &quot;flower&quot; is nearby</li>
-<li>Update <code>ActionTarget</code> component of its children.</li>
-</ul>
-</li>
-<li><code>SequenceSelector</code>: Run each child in order until completion or one fails.</li>
-<li><code>SucceedInDuration</code>: Upon arriving at the flower, wait for 1 second to emulate pollination.</li>
-</ol>
-<p>Notice how we are using these tiny actions to compose a behavior, every one of them is in the core library and we've created a behavior without writing any new code.</p>
-<p>Furthermore this graph can very easily be attached as a <code>forage</code> subgraph of a larger <code>bee</code> behavior graph.</p>
-<h2 id="agent-lifecycle"><a class="header" href="#agent-lifecycle">Agent Lifecycle</a></h2>
-<ol>
-<li>A graph is defined containing the relationships between nodes and the initial values for each of their accompanying actions.</li>
-<li>When creating an agent, call <code>my_graph.spawn(world, my_agent)</code> which will do the following for each node in the graph:
-<ul>
-<li>Create an entity</li>
-<li>Create a component for each action</li>
-</ul>
-</li>
-<li>When the agent is despawned, all entities in the graph are also despawned leaving no trace.</li>
-</ol>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="the-beet-library"><a class="header" href="#the-beet-library">The Beet Library</a></h1>
-<p>Beet relies on two components to run. both are <code>sparse_set</code> and added/removed as the run state of a node changes.</p>
-<h2 id="running"><a class="header" href="#running"><code>Running</code></a></h2>
-<p>A marker component indicating this node in the graph is currently running. The root node starts with this component and its usually added to children by parents to indicate &quot;you're up!&quot;</p>
-<h2 id="runresult"><a class="header" href="#runresult"><code>RunResult</code></a></h2>
-<p>Any action can decide to end the run state for its node by inserting a <code>RunResult</code>. Parents will usually listen for this change and somehow react to it, depending on whether it was <code>RunResult::Success</code> or <code>RunResult::Failure</code>.</p>
-<p>Thats it! The goal is for everything else to be optional, although the library still has some cleaning up to do.</p>
-<div style="break-before: page; page-break-before: always;"></div><h3 id="actions-1"><a class="header" href="#actions-1">Actions</a></h3>
-<blockquote>
-<p>Currently actions must implement a whole bunch of derives, ie reflect, hence the <code>#[derive_action]</code> wrapper for lazy people like me. I'm working on getting this down to as few as possible.</p>
-</blockquote>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>#[derive_action]
-pub struct LogOnRun(pub value: String);
-
-fn log_on_run(query: Query&lt;&amp;PrintAction, Added&lt;Running&gt;){
-	for (action) in query.iter(){
-		println!(&quot;{}&quot;, action.0);
-	}
-}
-<span class="boring">}</span></code></pre></pre>
-<p>Any action can finish the run state by adding a <code>RunResult</code>.</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>#[derive_action]
-pub struct SucceedOnRun;
-
-fn log_on_run(
-	mut commands: Commands, 
-	query: Query&lt;Entity, (With&lt;SucceedOnRun&gt;, Added&lt;Running&gt;)
-	){
-	for entity in query.iter(){
-		commands.entity(entity).insert(RunResult::Success);
-	}
-}
-<span class="boring">}</span></code></pre></pre>
-<p>Actions can modify their associated agent with the <code>TargetAgent</code> component.</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>#[derive_action]
-pub struct TranslateAgent(pub Vec3);
-
-fn translate_agent(
-	mut agents: Query&lt;&amp;mut Transform&gt;,
-	query: Query&lt;(&amp;TargetAgent, &amp;TranslateAgent), With&lt;Running&gt;&gt;
-	){
-	for (target_agent, translation) in query.iter(){
-		if let Some(transform) = agents.get(target_agent){
-			transform.translation += translation.0;
-		}
-	}
-}
-<span class="boring">}</span></code></pre></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="selectors-1"><a class="header" href="#selectors-1">Selectors</a></h1>
-<p>These docs are a wip, in the meantime check out the <a href="https://github.com/mrchantey/beet/blob/main/crates/beet_ecs/src/ecs_nodes/selectors/sequence_selector.rs">SequenceSelector</a> as an example.</p>
-<div style="break-before: page; page-break-before: always;"></div><div class="table-wrapper"><table><thead><tr><th>Roadmap</th><th></th></tr></thead><tbody>
-<tr><td>Behavior Trees</td><td>✅</td></tr>
-<tr><td>State Trees</td><td>🚧</td></tr>
-<tr><td>GOAP</td><td>🚧</td></tr>
-<tr><td>Machine Learning</td><td></td></tr>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="demo"><a class="header" href="#demo">Demo</a></h1>
+<p>This demo is an example of a beet app that does not use the bevy renderer.</p>
+<iframe src="https://mrchantey.github.io/beet/play/?spawn-bee=1"></iframe>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="roadmap"><a class="header" href="#roadmap">Roadmap</a></h1>
+<p>The scope for beet is very broad, so any ideas for priorities would be greatly appreciated.</p>
+<div class="table-wrapper"><table><thead><tr><th>Descrition</th><th>Status</th></tr></thead><tbody>
+<tr><td>Behavior Trees (sequence,fallback)</td><td>✅</td></tr>
+<tr><td>Utility AI (score selectors)</td><td>✅</td></tr>
+<tr><td>Robotics (esp32 example)</td><td>🚧</td></tr>
+<tr><td>Pathfinding/search (a* etc)</td><td>🚧</td></tr>
+<tr><td>State Trees (transitions)</td><td>🚧</td></tr>
+<tr><td>GOAP (tree generators)</td><td>🤷</td></tr>
+<tr><td>LLMs (prompt actions)</td><td>🤷</td></tr>
 </tbody></table>
 </div><div style="break-before: page; page-break-before: always;"></div><h1 id="resources"><a class="header" href="#resources">Resources</a></h1>
 <h2 id="architecture"><a class="header" href="#architecture">Architecture</a></h2>
@@ -556,13 +397,6 @@ fn translate_agent(
 <li><a href="https://github.com/SanderMertens/flecs/blob/master/examples/cpp/game_mechanics/factory/src/main.cpp">Flecs - State Machine Example</a></li>
 <li><a href="https://ajmmertens.medium.com/e7971da33ac3">Games as databases</a></li>
 <li><a href="https://ajmmertens.medium.com/742de7a18e59">Why storing state machines in ecs is a bad idea</a></li>
-</ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="contributing"><a class="header" href="#contributing">Contributing</a></h1>
-<p>This repo is in a bit of a weird state for a rust project at the moment. I came from a web dev environment and in transitioning to rust I've carried a lot of project setup habits with me for better or worse.</p>
-<p>For example:</p>
-<ul>
-<li><code>mod.rs</code> files are automatically managed by <code>forky</code>, for this reason i have them set to hidden in <code>.vscode/settings.json</code></li>
-<li>I'm using <code>sweet</code> for running tests which is basically a <code>jest</code> clone</li>
 </ul>
 
                     </main>
