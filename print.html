@@ -3,7 +3,8 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Beet - Beet</title>
+        <title>Beet</title>
+        <meta name="robots" content="noindex" />
 
 
         <!-- Custom HTML head -->
@@ -84,7 +85,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html" class="active"><strong aria-hidden="true">1.</strong> Beet</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="overview/ai-strategy.html"><strong aria-hidden="true">1.1.</strong> AI Strategy</a></li><li class="chapter-item expanded "><a href="overview/concepts.html"><strong aria-hidden="true">1.2.</strong> Concepts</a></li><li class="chapter-item expanded "><a href="overview/demo.html"><strong aria-hidden="true">1.3.</strong> Demo</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="misc/roadmap.html">Roadmap</a></li><li class="chapter-item expanded affix "><a href="misc/resources.html">Resources</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Beet</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="overview/ai-strategy.html"><strong aria-hidden="true">1.1.</strong> AI Strategy</a></li><li class="chapter-item expanded "><a href="overview/concepts.html"><strong aria-hidden="true">1.2.</strong> Concepts</a></li><li class="chapter-item expanded "><a href="overview/demo.html"><strong aria-hidden="true">1.3.</strong> Demo</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="misc/roadmap.html">Roadmap</a></li><li class="chapter-item expanded affix "><a href="misc/resources.html">Resources</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -187,7 +188,7 @@ This is proving to be an intuitive workflow to those familiar with ecs, and allo
 <h4 id="-target-anything"><a class="header" href="#-target-anything">🎯 Target Anything</a></h4>
 <p>Beet only depends on the lightweight architectural components of the bevy library, ie <code>bevy_ecs</code>, which allows it to target multi-core gaming rigs and tiny microcontrollers alike.</p>
 <h4 id="-epic-concurrency"><a class="header" href="#-epic-concurrency">🔥 Epic Concurrency</a></h4>
-<p>By default all actions are run in parallel systems. This means graph traversals occur on each update of the schedule, which makes unit testing, breakpoints etc a breeze, although it is not always desired, see <a href="#multi-tick">drawbacks</a>.</p>
+<p>By default all actions are run in parallel systems. This means graph traversals occur on each update of the schedule, which makes unit testing, breakpoints etc a breeze, although it is not always desired, see <a href="index.html#multi-tick">drawbacks</a>.</p>
 <h2 id="quickstart"><a class="header" href="#quickstart">Quickstart</a></h2>
 <pre><pre class="playground"><code class="language-rust">use beet::prelude::*;
 use bevy::prelude::*;
@@ -265,15 +266,134 @@ World
 <li>Arrange and/or duplicate system execution in a specific order</li>
 <li>Hardcode actions into a single system</li>
 </ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="ai-strategy"><a class="header" href="#ai-strategy">AI Strategy</a></h1>
+<p>Behavioral AI strategies are often described as being somewhere on a spectrum of of tradeoffs.</p>
+<div class="table-wrapper"><table><thead><tr><th>Controllable, Predictable, Fast</th><th></th><th></th><th>Emergent, Creative, Slow</th></tr></thead><tbody>
+<tr><td>Pathfinding Algorithms (A*)</td><td>State Machines</td><td>Utility AI</td><td>Genetic Algorithms</td></tr>
+<tr><td>Hardcoded rules</td><td>Behavior Trees</td><td>GOAP</td><td>Neural Networks</td></tr>
+<tr><td></td><td></td><td></td><td>LLMs</td></tr>
+</tbody></table>
+</div>
+<p>Just like human decision making we usually want some combination for a given task, for example (this is just illustrative)</p>
+<div class="table-wrapper"><table><thead><tr><th>Decision</th><th>Time scale</th><th>AI Strategy</th><th>Human Analogy</th></tr></thead><tbody>
+<tr><td>Where should we go for coffee?</td><td>tens of seconds</td><td>LLMs</td><td>Higher-order thinking</td></tr>
+<tr><td>How should I place my feet while walking?</td><td>seconds</td><td>Utility AI</td><td>Lower-order thinking</td></tr>
+<tr><td>Should I drop the cup if its scalding my hand?</td><td>milliseconds</td><td>Hardcoded rules</td><td>Reflexes</td></tr>
+</tbody></table>
+</div>
+<h2 id="beetss-approach"><a class="header" href="#beetss-approach">Beets's Approach</a></h2>
+<p>The 'go and get coffee' task requires several strategies to work in unison and Beet aims to be a single point of coordination for such behaviors. </p>
+<p>Its also important for these to be made modular, if a member of the community writes a great 'go and get coffee' behavior they should be able to share it for reuse in entirely different contexts, ideally across games <em>and</em> robotics where possible.</p>
+<h2 id="ai-designed-by-ai"><a class="header" href="#ai-designed-by-ai">AI designed by AI</a></h2>
+<p>At some point it may be worth exploring the use of advanced AI models in the design of lower level decision-making systems, for example:</p>
+<ul>
+<li>During development - A model generates a behavior tree for some task, to be fine-tuned by developers and designers.</li>
+<li>Runtime - The enemy AI for an RTS may run an expensive model remotely every few minutes to adjust the <em>strategy</em>, but the frame-by-frame decisions are made locally.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="concepts"><a class="header" href="#concepts">Concepts</a></h1>
+<!-- keep all code references in sync with docs please -->
+<p>The scope of beet spans several AI strategies, many with their own terminology, so I'm doing my best to use terms that fit. If you have any ideas please create an issue.</p>
+<h2 id="everything-is-an-action"><a class="header" href="#everything-is-an-action">Everything is an <code>Action</code></a></h2>
+<p>Actions are simply a combination of a <code>Component</code> and a <code>System</code>. They are the single primitive from which all behaviors are built, whether modifying the world or the behavior graph.</p>
+<p>For the goal of modularity they are usually very simple, for example <code>Translate</code> and <code>SucceedInDuration</code> could be combined to create a <code>Translate For Duration</code> behavior.</p>
+<h2 id="terminology"><a class="header" href="#terminology">Terminology</a></h2>
+<p>These terms are not nessecarily types in the codebase but may be helpful when describing Beet principles.</p>
+<div class="table-wrapper"><table><thead><tr><th>Name</th><th>Descrition</th><th>Example</th></tr></thead><tbody>
+<tr><td>Agent</td><td>A entity that has an associated behavior, usually as a child</td><td><code>Enemy</code></td></tr>
+<tr><td>Behavior</td><td>An entity that contains at least one action, and possibly child behaviors</td><td><code>Attack Target</code></td></tr>
+<tr><td>Action</td><td>A component-system pair</td><td><code>Swing Sword</code></td></tr>
+</tbody></table>
+</div>
+<h3 id="action-types"><a class="header" href="#action-types">Action types</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Name</th><th>Descrition</th><th>Example</th></tr></thead><tbody>
+<tr><td>Agent Action</td><td>Modifies the associated agent</td><td><a href="https://github.com/mrchantey/beet/blob/main/crates/beet_core/src/core_module/translate.rs"><code>Translate</code></a></td></tr>
+<tr><td>World Action</td><td>Modifies entities or resources external to the tree</td><td><a href="overview/:https://github.com/mrchantey/beet/blob/main/crates/beet_core/src/steering/steering_actions/despawn_steer_target.rs"><code>DespawnSteerTarget</code></a></td></tr>
+<tr><td>Selector Action</td><td>Choose which child to run, adds/removes <code>Running</code></td><td><a href="https://github.com/mrchantey/beet/blob/main/crates/beet_ecs/src/ecs_module/selectors/sequence_selector.rs"><code>SequenceSelector</code></a></td></tr>
+<tr><td>Evaluator Action</td><td>Modifies the <code>Score</code>, to be interpreted a <a href="https://github.com/mrchantey/beet/blob/main/crates/beet_ecs/src/ecs_module/selectors/score_selector.rs"><code>ScoreSelector</code></a></td><td><a href="https://github.com/mrchantey/beet/blob/main/crates/beet_core/src/steering/steering_actions/score_steer_target.rs"><code>ScoreSteerTarget</code></a></td></tr>
+<tr><td>Lifecycle Action</td><td>Does something as a reaction to the run state changing</td><td><a href="https://github.com/mrchantey/beet/blob/84047347bd0f1ca371503718d5cb0a0dd265709f/crates/beet_ecs/src/ecs_module/actions/lifecycle_actions.rs#L41"><code>InsertOnRun&lt;T&gt;</code></a></td></tr>
+</tbody></table>
+</div>
+<h2 id="common-components"><a class="header" href="#common-components">Common Components</a></h2>
+<p>These components are used by actions to determine run-state and make decisions.</p>
+<ul>
+<li><a href="https://github.com/mrchantey/beet/blob/84047347bd0f1ca371503718d5cb0a0dd265709f/crates/beet_ecs/src/node/running.rs#L12-L13"><code>Running</code></a> - Indicate this node is currently running.</li>
+<li><a href="https://github.com/mrchantey/beet/blob/84047347bd0f1ca371503718d5cb0a0dd265709f/crates/beet_ecs/src/node/running.rs#L32"><code>RunResult</code></a> - Notify their parent that this node has finished.</li>
+<li><a href="https://github.com/mrchantey/beet/blob/84047347bd0f1ca371503718d5cb0a0dd265709f/crates/beet_ecs/src/node/score.rs#L32"><code>Score</code></a> - Notify the parent how favourable it would be for this node to run.</li>
+<li><a href="https://github.com/mrchantey/beet/blob/84047347bd0f1ca371503718d5cb0a0dd265709f/crates/beet_ecs/src/node/run_timer.rs"><code>RunTimer</code></a> - Time since an action started/stopped.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="demo"><a class="header" href="#demo">Demo</a></h1>
+<p>This demo is an example of a beet app that does not use the bevy renderer.</p>
+<iframe src="https://mrchantey.github.io/beet/play/?spawn-bee=1"></iframe>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="roadmap"><a class="header" href="#roadmap">Roadmap</a></h1>
+<p>The scope for beet is very broad, so any ideas for priorities would be greatly appreciated.</p>
+<div class="table-wrapper"><table><thead><tr><th>Descrition</th><th>Status</th></tr></thead><tbody>
+<tr><td>Behavior Trees (sequence,fallback)</td><td>✅</td></tr>
+<tr><td>Utility AI (score selectors)</td><td>✅</td></tr>
+<tr><td>Robotics (esp32 example)</td><td>🚧</td></tr>
+<tr><td>Pathfinding/search (a* etc)</td><td>🚧</td></tr>
+<tr><td>State Trees (transitions)</td><td>🚧</td></tr>
+<tr><td>GOAP (tree generators)</td><td>🤷</td></tr>
+<tr><td>LLMs (prompt actions)</td><td>🤷</td></tr>
+</tbody></table>
+</div><div style="break-before: page; page-break-before: always;"></div><h1 id="resources"><a class="header" href="#resources">Resources</a></h1>
+<h2 id="architecture"><a class="header" href="#architecture">Architecture</a></h2>
+<ul>
+<li>GDC - <a href="https://youtu.be/IvK0ZlNoxjw">Modular AI</a></li>
+<li>Chris Hecker - <a href="https://youtu.be/4eQp8SdzOa0">Structure Vs Style</a>
+<ul>
+<li><a href="https://chrishecker.com/Structure_vs_Style">blog</a></li>
+</ul>
+</li>
+<li>Kevin Dill, Dave Mark - <a href="https://www.gdcvault.com/play/1012410/Improving-AI-Decision-Modeling-Through">Improving AI Decision Modeling Through Utility Theory</a></li>
+<li>Kevin Dill, Dave Mark - <a href="https://www.gdcvault.com/play/1015683/Embracing-the-Dark-Art-of">Embracing the Dark Art of Mathematical Modeling in Game AI</a></li>
+<li>Kevin Dill - <a href="https://www.sisostds.org/DesktopModules/Bring2mind/DMX/Download.aspx?Command=Core_Download&amp;EntryId=35466&amp;PortalId=0&amp;TabId=105">Introducing GAIA</a></li>
+<li>Jakob Rasmussen - <a href="https://youtu.be/jse_ZleruJU">Utility AI - Apex Game Tooks - Unite 2016</a></li>
+<li>Nicolas Meuleau - <a href="https://youtu.be/78nhJNPS0vA">Unity Labs - GOAP - 2017</a>
+<ul>
+<li>Follow-up - <a href="https://youtu.be/ZdN8dDa0ff4">2018</a></li>
+</ul>
+</li>
+<li>YouTube - <a href="https://www.youtube.com/watch?v=KeShMInMjro&amp;list=PLFQdM4LOGDr_vYJuo8YTRcmv3FrwczdKg">Introduction to Behaviour Trees</a></li>
+<li>YouTube - <a href="https://www.youtube.com/playlist?list=PLk-SPWGynZmM3jv0TCV-Shhe_ltgc7qxq">GDC Game AI Playlist</a></li>
+</ul>
+<h2 id="ai-libraries"><a class="header" href="#ai-libraries">AI libraries</a></h2>
+<ul>
+<li>Bevy
+<ul>
+<li>Utility AI - <a href="https://crates.io/crates/big-brain">big-brain</a></li>
+<li>State machines - <a href="https://crates.io/crates/seldom_state">seldom_state</a></li>
+<li>Behavior trees - <a href="https://crates.io/crates/bevior_tree">bevior_tree</a></li>
+</ul>
+</li>
+<li>Ros2
+<ul>
+<li><a href="https://ros2wasm.dev/">ros 2 wasm</a>
+<ul>
+<li><a href="https://vimeo.com/879001638">intro video</a></li>
+</ul>
+</li>
+<li><a href="https://rosonweb.io/">Ros On Web</a></li>
+</ul>
+</li>
+<li>Misc
+<ul>
+<li>C++ - <a href="https://www.behaviortree.dev/">BehaviorTree.cpp</a></li>
+<li>Godot - <a href="https://bitbra.in/beehave/#/">beehave</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="entity-relationships"><a class="header" href="#entity-relationships">Entity Relationships</a></h2>
+<ul>
+<li><a href="https://github.com/SanderMertens/flecs/blob/master/examples/cpp/game_mechanics/factory/src/main.cpp">Flecs - State Machine Example</a></li>
+<li><a href="https://ajmmertens.medium.com/e7971da33ac3">Games as databases</a></li>
+<li><a href="https://ajmmertens.medium.com/742de7a18e59">Why storing state machines in ecs is a bad idea</a></li>
+</ul>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
 
-                            <a rel="next" href="overview/ai-strategy.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -282,9 +402,6 @@ World
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
 
-                    <a rel="next" href="overview/ai-strategy.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
             </nav>
 
         </div>
@@ -310,6 +427,11 @@ World
         <script src="deps/mermaid.min.js"></script>
         <script src="deps/mermaid-init.js"></script>
 
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
 
     </div>
     </body>
