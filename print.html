@@ -85,7 +85,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Beet</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="overview/ai-strategy.html"><strong aria-hidden="true">1.1.</strong> AI Strategy</a></li><li class="chapter-item expanded "><a href="overview/concepts.html"><strong aria-hidden="true">1.2.</strong> Concepts</a></li><li class="chapter-item expanded "><a href="overview/demo.html"><strong aria-hidden="true">1.3.</strong> Demo</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="misc/roadmap.html">Roadmap</a></li><li class="chapter-item expanded affix "><a href="misc/resources.html">Resources</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Beet</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="concepts.html"><strong aria-hidden="true">1.1.</strong> Concepts</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="misc/roadmap.html">Roadmap</a></li><li class="chapter-item expanded affix "><a href="misc/resources.html">Resources</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -173,8 +173,7 @@
 <p>It is built with <code>bevy</code> and uses entities to represent behaviors, connecting them through the parent-child relationship. This approach feels familiar and allows for high levels of modularity like scene graphs (in fact behaviors <em>are</em> scene graphs).</p>
 <h2 id="quick-links"><a class="header" href="#quick-links">Quick Links</a></h2>
 <ul>
-<li><a href="./overview/ai-strategy.html">AI Strategy</a></li>
-<li><a href="./overview/concepts.html">Concepts</a></li>
+<li><a href="./concepts.html">Concepts</a></li>
 <li><a href="https://app.beetmash.com/">Beetmash Web Editor</a></li>
 </ul>
 <h2 id="features"><a class="header" href="#features">Features</a></h2>
@@ -265,30 +264,6 @@ World
 <li>Arrange and/or duplicate system execution in a specific order</li>
 <li>Hardcode actions into a single system</li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="ai-strategy"><a class="header" href="#ai-strategy">AI Strategy</a></h1>
-<p>Behavioral AI strategies are often described as being somewhere on a spectrum of of tradeoffs.</p>
-<div class="table-wrapper"><table><thead><tr><th>Controllable, Predictable, Fast</th><th></th><th></th><th>Emergent, Creative, Slow</th></tr></thead><tbody>
-<tr><td>Pathfinding Algorithms (A*)</td><td>State Machines</td><td>Utility AI</td><td>Genetic Algorithms</td></tr>
-<tr><td>Hardcoded rules</td><td>Behavior Trees</td><td>GOAP</td><td>Neural Networks</td></tr>
-<tr><td></td><td></td><td></td><td>LLMs</td></tr>
-</tbody></table>
-</div>
-<p>Just like human decision making we usually want some combination for a given task, for example (this is just illustrative)</p>
-<div class="table-wrapper"><table><thead><tr><th>Decision</th><th>Time scale</th><th>AI Strategy</th><th>Human Analogy</th></tr></thead><tbody>
-<tr><td>Where should we go for coffee?</td><td>tens of seconds</td><td>LLMs</td><td>Higher-order thinking</td></tr>
-<tr><td>How should I place my feet while walking?</td><td>seconds</td><td>Utility AI</td><td>Lower-order thinking</td></tr>
-<tr><td>Should I drop the cup if its scalding my hand?</td><td>milliseconds</td><td>Hardcoded rules</td><td>Reflexes</td></tr>
-</tbody></table>
-</div>
-<h2 id="beetss-approach"><a class="header" href="#beetss-approach">Beets's Approach</a></h2>
-<p>The 'go and get coffee' task requires several strategies to work in unison and Beet aims to be a single point of coordination for such behaviors. </p>
-<p>Its also important for these to be made modular, if a member of the community writes a great 'go and get coffee' behavior they should be able to share it for reuse in entirely different contexts, ideally across games <em>and</em> robotics where possible.</p>
-<h2 id="ai-designed-by-ai"><a class="header" href="#ai-designed-by-ai">AI designed by AI</a></h2>
-<p>At some point it may be worth exploring the use of advanced AI models in the design of lower level decision-making systems, for example:</p>
-<ul>
-<li>During development - A model generates a behavior tree for some task, to be fine-tuned by developers and designers.</li>
-<li>Runtime - The enemy AI for an RTS may run an expensive model remotely every few minutes to adjust the <em>strategy</em>, but the frame-by-frame decisions are made locally.</li>
-</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="concepts"><a class="header" href="#concepts">Concepts</a></h1>
 <!-- keep all code references in sync with docs please -->
 <h2 id="everything-is-an-action"><a class="header" href="#everything-is-an-action">Everything is an <code>Action</code></a></h2>
@@ -305,7 +280,7 @@ World
 <h3 id="action-types"><a class="header" href="#action-types">Action types</a></h3>
 <div class="table-wrapper"><table><thead><tr><th>Name</th><th>Descrition</th><th>Example</th></tr></thead><tbody>
 <tr><td>Agent Action</td><td>Modifies the associated agent</td><td><a href="https://github.com/mrchantey/beet/blob/main/crates/beet_core/src/core_module/translate.rs"><code>Translate</code></a></td></tr>
-<tr><td>World Action</td><td>Modifies entities or resources external to the tree</td><td><a href="overview/:https://github.com/mrchantey/beet/blob/main/crates/beet_core/src/steering/steering_actions/despawn_steer_target.rs"><code>DespawnSteerTarget</code></a></td></tr>
+<tr><td>World Action</td><td>Modifies entities or resources external to the tree</td><td><a href=":https://github.com/mrchantey/beet/blob/main/crates/beet_core/src/steering/steering_actions/despawn_steer_target.rs"><code>DespawnSteerTarget</code></a></td></tr>
 <tr><td>Selector Action</td><td>Choose which child to run, adds/removes <code>Running</code></td><td><a href="https://github.com/mrchantey/beet/blob/main/crates/beet_ecs/src/ecs_module/selectors/sequence_selector.rs"><code>SequenceSelector</code></a></td></tr>
 <tr><td>Evaluator Action</td><td>Modifies the <code>Score</code>, to be interpreted a <a href="https://github.com/mrchantey/beet/blob/main/crates/beet_ecs/src/ecs_module/selectors/score_selector.rs"><code>ScoreSelector</code></a></td><td><a href="https://github.com/mrchantey/beet/blob/main/crates/beet_core/src/steering/steering_actions/score_steer_target.rs"><code>ScoreSteerTarget</code></a></td></tr>
 <tr><td>Lifecycle Action</td><td>Does something as a reaction to the run state changing</td><td><a href="https://github.com/mrchantey/beet/blob/84047347bd0f1ca371503718d5cb0a0dd265709f/crates/beet_ecs/src/ecs_module/actions/lifecycle_actions.rs#L41"><code>InsertOnRun&lt;T&gt;</code></a></td></tr>
@@ -319,9 +294,6 @@ World
 <li><a href="https://github.com/mrchantey/beet/blob/84047347bd0f1ca371503718d5cb0a0dd265709f/crates/beet_ecs/src/node/score.rs#L32"><code>Score</code></a> - Notify the parent how favourable it would be for this node to run.</li>
 <li><a href="https://github.com/mrchantey/beet/blob/84047347bd0f1ca371503718d5cb0a0dd265709f/crates/beet_ecs/src/node/run_timer.rs"><code>RunTimer</code></a> - Time since an action started/stopped.</li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="demo"><a class="header" href="#demo">Demo</a></h1>
-<p>This demo is an example of a beet app that does not use the bevy renderer.</p>
-<iframe src="https://mrchantey.github.io/beet/play/?spawn-bee=1"></iframe>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="roadmap"><a class="header" href="#roadmap">Roadmap</a></h1>
 <p>The scope for beet is very broad, so any ideas for priorities would be greatly appreciated.</p>
 <div class="table-wrapper"><table><thead><tr><th>Descrition</th><th>Status</th></tr></thead><tbody>
