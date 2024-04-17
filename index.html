@@ -174,7 +174,7 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="beet"><a class="header" href="#beet">Beet</a></h1>
-<p>Beet is a modular AI behavior library for games and robotics.</p>
+<p>Beet is a distributed behavior library for games and robotics.</p>
 <p>It is built with <code>bevy</code> and uses entities to represent behaviors, connecting them through the parent-child relationship. This approach feels familiar and allows for high levels of modularity, just like scene graphs (in fact behaviors <em>are</em> scene graphs).</p>
 <h2 id="quick-links"><a class="header" href="#quick-links">Quick Links</a></h2>
 <p>Currently the best place for examples is the tests for specific actions, ie <a href="https://github.com/mrchantey/beet/blob/main/crates/beet_ecs/src/ecs_module/selectors/score_selector.rs">ScoreSelector</a></p>
@@ -187,6 +187,8 @@
 <p>The flexibility of entity graphs allows us to mix-and-match techniques from different paradigms, ie behavior trees, utility selectors, LLMs, etc.</p>
 <h4 id="-modular-trees"><a class="header" href="#-modular-trees">🌳 Modular Trees</a></h4>
 <p>Behaviors are composable trees of entities and actions are reusable.</p>
+<h4 id="-messageless-distribution"><a class="header" href="#-messageless-distribution">🌐 Messageless distribution</a></h4>
+<p>Work can be distributed across environments through world replication. Any given agent may run some actions locally in a constrained environment, and others remotely.</p>
 <h4 id="-ecosystem-friendly"><a class="header" href="#-ecosystem-friendly">🐦 Ecosystem friendly</a></h4>
 <p>All aspects of the library are simple components and systems, which means no blackboard and easy integration with existing bevy tooling.</p>
 <h4 id="-target-anything"><a class="header" href="#-target-anything">🎯 Target Anything</a></h4>
