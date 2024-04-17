@@ -177,7 +177,7 @@
 <blockquote>
 <p>This library has a broad scope and is largely incomplete, contributions are very welcome.</p>
 </blockquote>
-<p>Beet is a distributed behavior library for games and robotics.</p>
+<p>Beet is a modular behavior library for games and robotics.</p>
 <p>It is built with <code>bevy</code> and uses entities to represent behaviors, connecting them through the parent-child relationship. This approach feels familiar and allows for high levels of modularity, just like scene graphs (in fact behaviors <em>are</em> scene graphs).</p>
 <h2 id="quick-links"><a class="header" href="#quick-links">Quick Links</a></h2>
 <ul>
@@ -189,14 +189,14 @@
 <p>The flexibility of entity graphs allows us to mix-and-match techniques from different paradigms, ie behavior trees, utility selectors, LLMs, etc.</p>
 <h4 id="-modular-trees"><a class="header" href="#-modular-trees">🌳 Modular Trees</a></h4>
 <p>Behaviors are composable trees of entities and actions are reusable.</p>
-<h4 id="-messageless-replication"><a class="header" href="#-messageless-replication">🌐 Messageless replication</a></h4>
-<p>Work can be distributed across environments through world replication. An agent may run some actions locally in a constrained environment, and others remotely.</p>
 <h4 id="-ecosystem-friendly"><a class="header" href="#-ecosystem-friendly">🐦 Ecosystem friendly</a></h4>
 <p>All aspects of the library are simple components and systems, which means no blackboard and easy integration with existing bevy tooling.</p>
 <h4 id="-target-anything"><a class="header" href="#-target-anything">🎯 Target Anything</a></h4>
 <p>Beet only depends on the lightweight architectural components of the bevy library, ie <code>bevy_ecs</code>, which allows it to target multi-core gaming rigs and tiny microcontrollers alike.</p>
 <h4 id="-epic-concurrency"><a class="header" href="#-epic-concurrency">🔥 Epic Concurrency</a></h4>
 <p>By default all actions are run in parallel systems. This means graph traversals occur on each update of the schedule, which makes unit testing, breakpoints etc a breeze, although it is not always desired, see <a href="#multi-tick">drawbacks</a>.</p>
+<h4 id="-messageless-replication-wip"><a class="header" href="#-messageless-replication-wip">🌐 Messageless replication (wip)</a></h4>
+<p>Work can be distributed across environments through world replication. An agent may run some actions in a constrained environment and others in a remote server.</p>
 <h2 id="quickstart"><a class="header" href="#quickstart">Quickstart</a></h2>
 <pre><pre class="playground"><code class="language-rust">use beet::prelude::*;
 use bevy::prelude::*;
