@@ -84,7 +84,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html" class="active"><strong aria-hidden="true">1.</strong> Beet</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="concepts.html"><strong aria-hidden="true">1.1.</strong> Concepts</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="misc/roadmap.html">Roadmap</a></li><li class="chapter-item expanded affix "><a href="misc/resources.html">Resources</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html" class="active"><strong aria-hidden="true">1.</strong> Beet</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="concepts.html"><strong aria-hidden="true">1.1.</strong> Concepts</a></li><li class="chapter-item expanded "><a href="actions.html"><strong aria-hidden="true">1.2.</strong> Actions</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="misc/roadmap.html">Roadmap</a></li><li class="chapter-item expanded affix "><a href="misc/resources.html">Resources</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -174,21 +174,23 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="beet"><a class="header" href="#beet">Beet</a></h1>
+<blockquote>
+<p>This library has a broad scope and is largely incomplete, contributions are very welcome.</p>
+</blockquote>
 <p>Beet is a distributed behavior library for games and robotics.</p>
 <p>It is built with <code>bevy</code> and uses entities to represent behaviors, connecting them through the parent-child relationship. This approach feels familiar and allows for high levels of modularity, just like scene graphs (in fact behaviors <em>are</em> scene graphs).</p>
 <h2 id="quick-links"><a class="header" href="#quick-links">Quick Links</a></h2>
-<p>Currently the best place for examples is the tests for specific actions, ie <a href="https://github.com/mrchantey/beet/blob/main/crates/beet_ecs/src/ecs_module/selectors/score_selector.rs">ScoreSelector</a></p>
 <ul>
 <li><a href="./concepts.html">Concepts</a></li>
-<li><a href="https://app.beetmash.com/">Beetmash Web Editor</a></li>
+<li><a href="./actions.html">Actions</a></li>
 </ul>
 <h2 id="features"><a class="header" href="#features">Features</a></h2>
 <h4 id="-multi-paradigm"><a class="header" href="#-multi-paradigm">🌈 Multi-paradigm</a></h4>
 <p>The flexibility of entity graphs allows us to mix-and-match techniques from different paradigms, ie behavior trees, utility selectors, LLMs, etc.</p>
 <h4 id="-modular-trees"><a class="header" href="#-modular-trees">🌳 Modular Trees</a></h4>
 <p>Behaviors are composable trees of entities and actions are reusable.</p>
-<h4 id="-messageless-distribution"><a class="header" href="#-messageless-distribution">🌐 Messageless distribution</a></h4>
-<p>Work can be distributed across environments through world replication. Any given agent may run some actions locally in a constrained environment, and others remotely.</p>
+<h4 id="-messageless-replication"><a class="header" href="#-messageless-replication">🌐 Messageless replication</a></h4>
+<p>Work can be distributed across environments through world replication. An agent may run some actions locally in a constrained environment, and others remotely.</p>
 <h4 id="-ecosystem-friendly"><a class="header" href="#-ecosystem-friendly">🐦 Ecosystem friendly</a></h4>
 <p>All aspects of the library are simple components and systems, which means no blackboard and easy integration with existing bevy tooling.</p>
 <h4 id="-target-anything"><a class="header" href="#-target-anything">🎯 Target Anything</a></h4>

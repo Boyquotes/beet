@@ -3,8 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Page not found - Beet</title>
-        <base href="/">
+        <title>Actions - Beet</title>
 
 
         <!-- Custom HTML head -->
@@ -85,7 +84,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Beet</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="concepts.html"><strong aria-hidden="true">1.1.</strong> Concepts</a></li><li class="chapter-item expanded "><a href="actions.html"><strong aria-hidden="true">1.2.</strong> Actions</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="misc/roadmap.html">Roadmap</a></li><li class="chapter-item expanded affix "><a href="misc/resources.html">Resources</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Beet</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="concepts.html"><strong aria-hidden="true">1.1.</strong> Concepts</a></li><li class="chapter-item expanded "><a href="actions.html" class="active"><strong aria-hidden="true">1.2.</strong> Actions</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="misc/roadmap.html">Roadmap</a></li><li class="chapter-item expanded affix "><a href="misc/resources.html">Resources</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -145,6 +144,9 @@
                         <a href="https://github.com/mrchantey/beet" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
+                        <a href="https://github.com/mrchantey/beet/tree/main/docs/src/actions.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
 
                     </div>
                 </div>
@@ -171,14 +173,34 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="document-not-found-404"><a class="header" href="#document-not-found-404">Document not found (404)</a></h1>
-<p>This URL is invalid, sorry. Please use the navigation bar or search to continue.</p>
+                        <h1 id="actions"><a class="header" href="#actions">Actions</a></h1>
+<p>Beet has a growing list of actions. For now the best place to look for examples is the tests at the bottom of the file for each action.</p>
+<p><a href="./concepts.html#graph-roles">Graph Roles</a> are a way of categorizing actions.</p>
+<h2 id="ecsmodule"><a class="header" href="#ecsmodule"><code>EcsModule</code></a></h2>
+<p>The <a href="https://github.com/mrchantey/beet/blob/main/crates/beet_ecs/src/ecs_module/ecs_module.rs"><code>EcsModule</code></a> contains the core actions and components required for most behaviors.</p>
+<div class="table-wrapper"><table><thead><tr><th>Name</th><th>Graph Role</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>EmptyAction</code></td><td>Node</td><td>Does what it says on the tin, useful for tests</td></tr>
+<tr><td><code>Repeat</code></td><td>Node</td><td>Reattaches the <code>Running</code> component whenever it is removed.</td></tr>
+<tr><td><code>SetOnStart&lt;Score&gt;</code></td><td>Node</td><td>Sets the score to a constant value when this behavior is spawned</td></tr>
+<tr><td><code>InsertOnRun&lt;RunResult&gt;</code></td><td>Node</td><td>Immediately succeed or fail when this behavior runs</td></tr>
+<tr><td><code>SequenceSelector</code></td><td>Child</td><td>Run children in sequence until one fails</td></tr>
+<tr><td><code>FallbackSelector</code></td><td>Child</td><td>Run children in sequence until one succeeds</td></tr>
+<tr><td><code>ScoreSelector</code></td><td>Child</td><td>Run the child with the highest score</td></tr>
+</tbody></table>
+</div>
+<h2 id="coremodule"><a class="header" href="#coremodule"><code>CoreModule</code></a></h2>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="concepts.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
 
+                            <a rel="next" href="misc/roadmap.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -186,7 +208,13 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="concepts.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
 
+                    <a rel="next" href="misc/roadmap.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
             </nav>
 
         </div>

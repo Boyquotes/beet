@@ -85,7 +85,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Beet</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="concepts.html"><strong aria-hidden="true">1.1.</strong> Concepts</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="misc/roadmap.html">Roadmap</a></li><li class="chapter-item expanded affix "><a href="misc/resources.html">Resources</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Beet</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="concepts.html"><strong aria-hidden="true">1.1.</strong> Concepts</a></li><li class="chapter-item expanded "><a href="actions.html"><strong aria-hidden="true">1.2.</strong> Actions</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="misc/roadmap.html">Roadmap</a></li><li class="chapter-item expanded affix "><a href="misc/resources.html">Resources</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -172,21 +172,23 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="beet"><a class="header" href="#beet">Beet</a></h1>
+<blockquote>
+<p>This library has a broad scope and is largely incomplete, contributions are very welcome.</p>
+</blockquote>
 <p>Beet is a distributed behavior library for games and robotics.</p>
 <p>It is built with <code>bevy</code> and uses entities to represent behaviors, connecting them through the parent-child relationship. This approach feels familiar and allows for high levels of modularity, just like scene graphs (in fact behaviors <em>are</em> scene graphs).</p>
 <h2 id="quick-links"><a class="header" href="#quick-links">Quick Links</a></h2>
-<p>Currently the best place for examples is the tests for specific actions, ie <a href="https://github.com/mrchantey/beet/blob/main/crates/beet_ecs/src/ecs_module/selectors/score_selector.rs">ScoreSelector</a></p>
 <ul>
 <li><a href="./concepts.html">Concepts</a></li>
-<li><a href="https://app.beetmash.com/">Beetmash Web Editor</a></li>
+<li><a href="./actions.html">Actions</a></li>
 </ul>
 <h2 id="features"><a class="header" href="#features">Features</a></h2>
 <h4 id="-multi-paradigm"><a class="header" href="#-multi-paradigm">🌈 Multi-paradigm</a></h4>
 <p>The flexibility of entity graphs allows us to mix-and-match techniques from different paradigms, ie behavior trees, utility selectors, LLMs, etc.</p>
 <h4 id="-modular-trees"><a class="header" href="#-modular-trees">🌳 Modular Trees</a></h4>
 <p>Behaviors are composable trees of entities and actions are reusable.</p>
-<h4 id="-messageless-distribution"><a class="header" href="#-messageless-distribution">🌐 Messageless distribution</a></h4>
-<p>Work can be distributed across environments through world replication. Any given agent may run some actions locally in a constrained environment, and others remotely.</p>
+<h4 id="-messageless-replication"><a class="header" href="#-messageless-replication">🌐 Messageless replication</a></h4>
+<p>Work can be distributed across environments through world replication. An agent may run some actions locally in a constrained environment, and others remotely.</p>
 <h4 id="-ecosystem-friendly"><a class="header" href="#-ecosystem-friendly">🐦 Ecosystem friendly</a></h4>
 <p>All aspects of the library are simple components and systems, which means no blackboard and easy integration with existing bevy tooling.</p>
 <h4 id="-target-anything"><a class="header" href="#-target-anything">🎯 Target Anything</a></h4>
@@ -274,7 +276,7 @@ World
 <!-- keep all code references in sync with docs please -->
 <h2 id="everything-is-an-action"><a class="header" href="#everything-is-an-action">Everything is an <code>Action</code></a></h2>
 <p>Actions are simply a combination of a <code>Component</code> and a <code>System</code>. They are the single primitive from which all behaviors are built, whether modifying the world or the behavior graph.</p>
-<p>For the goal of modularity they are usually very simple, for example <code>Translate</code> and <code>SucceedInDuration</code> could be combined to create a <code>Translate For Duration</code> behavior.</p>
+<p>For the goal of modularity they are usually very simple, for example <code>Translate</code> and <code>InsertInDuration&lt;RunResult&gt;</code> could be combined to create a <code>Translate For Duration</code> behavior.</p>
 <h2 id="terminology"><a class="header" href="#terminology">Terminology</a></h2>
 <p>These terms are not nessecarily types in the codebase but may be helpful when describing Beet principles.</p>
 <div class="table-wrapper"><table><thead><tr><th>Name</th><th>Descrition</th><th>Example</th></tr></thead><tbody>
@@ -283,13 +285,13 @@ World
 <tr><td>Action</td><td>A component-system pair</td><td><code>Swing Sword</code></td></tr>
 </tbody></table>
 </div>
-<h3 id="action-types"><a class="header" href="#action-types">Action types</a></h3>
-<div class="table-wrapper"><table><thead><tr><th>Name</th><th>Descrition</th><th>Example</th></tr></thead><tbody>
-<tr><td>Agent Action</td><td>Modifies the associated agent</td><td><a href="https://github.com/mrchantey/beet/blob/main/crates/beet_core/src/core_module/translate.rs"><code>Translate</code></a></td></tr>
-<tr><td>World Action</td><td>Modifies entities or resources external to the tree</td><td><a href=":https://github.com/mrchantey/beet/blob/main/crates/beet_core/src/steering/steering_actions/despawn_steer_target.rs"><code>DespawnSteerTarget</code></a></td></tr>
-<tr><td>Selector Action</td><td>Choose which child to run, adds/removes <code>Running</code></td><td><a href="https://github.com/mrchantey/beet/blob/main/crates/beet_ecs/src/ecs_module/selectors/sequence_selector.rs"><code>SequenceSelector</code></a></td></tr>
-<tr><td>Evaluator Action</td><td>Modifies the <code>Score</code>, to be interpreted a <a href="https://github.com/mrchantey/beet/blob/main/crates/beet_ecs/src/ecs_module/selectors/score_selector.rs"><code>ScoreSelector</code></a></td><td><a href="https://github.com/mrchantey/beet/blob/main/crates/beet_core/src/steering/steering_actions/score_steer_target.rs"><code>ScoreSteerTarget</code></a></td></tr>
-<tr><td>Lifecycle Action</td><td>Does something as a reaction to the run state changing</td><td><a href="https://github.com/mrchantey/beet/blob/84047347bd0f1ca371503718d5cb0a0dd265709f/crates/beet_ecs/src/ecs_module/actions/lifecycle_actions.rs#L41"><code>InsertOnRun&lt;T&gt;</code></a></td></tr>
+<h2 id="graph-roles"><a class="header" href="#graph-roles">Graph Roles</a></h2>
+<p>Actions can be categorized by what parts of the scene graph they mutate. This is just metadata and has no actual effect.</p>
+<div class="table-wrapper"><table><thead><tr><th>Name</th><th>Description</th><th>Example</th></tr></thead><tbody>
+<tr><td><code>GraphRole::Node</code></td><td>Only modifies some part of the behavior entity it is attached to, ie updating <code>Score</code> to be interpreted a <a href="https://github.com/mrchantey/beet/blob/main/crates/beet_ecs/src/ecs_module/selectors/score_selector.rs"><code>ScoreSelector</code></a></td><td><a href="https://github.com/mrchantey/beet/blob/main/crates/beet_core/src/steering/steering_actions/score_steer_target.rs"><code>ScoreSteerTarget</code></a></td></tr>
+<tr><td><code>GraphRole::Child</code></td><td>Modifies child entities, ie adding/removing <code>Running</code></td><td><a href="https://github.com/mrchantey/beet/blob/main/crates/beet_ecs/src/ecs_module/selectors/sequence_selector.rs"><code>SequenceSelector</code></a></td></tr>
+<tr><td><code>GraphRole::Agent</code></td><td>Modifies the associated agent, ie movement</td><td><a href="https://github.com/mrchantey/beet/blob/main/crates/beet_core/src/core_module/translate.rs"><code>Translate</code></a></td></tr>
+<tr><td><code>GraphRole::World</code></td><td>Modifies entities or resources external to the tree, ie despawning a collectable</td><td><a href=":https://github.com/mrchantey/beet/blob/main/crates/beet_core/src/steering/steering_actions/despawn_steer_target.rs"><code>DespawnSteerTarget</code></a></td></tr>
 </tbody></table>
 </div>
 <h2 id="common-components"><a class="header" href="#common-components">Common Components</a></h2>
@@ -299,7 +301,24 @@ World
 <li><a href="https://github.com/mrchantey/beet/blob/84047347bd0f1ca371503718d5cb0a0dd265709f/crates/beet_ecs/src/node/running.rs#L32"><code>RunResult</code></a> - Notify their parent that this node has finished.</li>
 <li><a href="https://github.com/mrchantey/beet/blob/84047347bd0f1ca371503718d5cb0a0dd265709f/crates/beet_ecs/src/node/score.rs#L32"><code>Score</code></a> - Notify the parent how favourable it would be for this node to run.</li>
 <li><a href="https://github.com/mrchantey/beet/blob/84047347bd0f1ca371503718d5cb0a0dd265709f/crates/beet_ecs/src/node/run_timer.rs"><code>RunTimer</code></a> - Time since an action started/stopped.</li>
+<li><a href="https://github.com/mrchantey/beet/blob/84047347bd0f1ca371503718d5cb0a0dd265709f/crates/beet_ecs/src/ecs_module/actions/lifecycle_actions.rs#L41"><code>InsertOnRun&lt;T&gt;</code></a> - Inserts a component whenever state changes</li>
 </ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="actions"><a class="header" href="#actions">Actions</a></h1>
+<p>Beet has a growing list of actions. For now the best place to look for examples is the tests at the bottom of the file for each action.</p>
+<p><a href="./concepts.html#graph-roles">Graph Roles</a> are a way of categorizing actions.</p>
+<h2 id="ecsmodule"><a class="header" href="#ecsmodule"><code>EcsModule</code></a></h2>
+<p>The <a href="https://github.com/mrchantey/beet/blob/main/crates/beet_ecs/src/ecs_module/ecs_module.rs"><code>EcsModule</code></a> contains the core actions and components required for most behaviors.</p>
+<div class="table-wrapper"><table><thead><tr><th>Name</th><th>Graph Role</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>EmptyAction</code></td><td>Node</td><td>Does what it says on the tin, useful for tests</td></tr>
+<tr><td><code>Repeat</code></td><td>Node</td><td>Reattaches the <code>Running</code> component whenever it is removed.</td></tr>
+<tr><td><code>SetOnStart&lt;Score&gt;</code></td><td>Node</td><td>Sets the score to a constant value when this behavior is spawned</td></tr>
+<tr><td><code>InsertOnRun&lt;RunResult&gt;</code></td><td>Node</td><td>Immediately succeed or fail when this behavior runs</td></tr>
+<tr><td><code>SequenceSelector</code></td><td>Child</td><td>Run children in sequence until one fails</td></tr>
+<tr><td><code>FallbackSelector</code></td><td>Child</td><td>Run children in sequence until one succeeds</td></tr>
+<tr><td><code>ScoreSelector</code></td><td>Child</td><td>Run the child with the highest score</td></tr>
+</tbody></table>
+</div>
+<h2 id="coremodule"><a class="header" href="#coremodule"><code>CoreModule</code></a></h2>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="roadmap"><a class="header" href="#roadmap">Roadmap</a></h1>
 <p>The scope for beet is very broad, so any ideas for priorities would be greatly appreciated.</p>
 <div class="table-wrapper"><table><thead><tr><th>Descrition</th><th>Status</th></tr></thead><tbody>
