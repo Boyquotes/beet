@@ -174,12 +174,18 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="actions"><a class="header" href="#actions">Actions</a></h1>
-<p>Beet has a growing list of actions. For now the best place to look for examples is the tests at the bottom of the file for each action.</p>
+<p>Beet has a growing list of actions. For now the best place to find usage examples is the tests at the bottom of the file for each action.</p>
+<h2 id="lifecycle-actions"><a class="header" href="#lifecycle-actions">Lifecycle Actions</a></h2>
+<p>Often we want to do something when a behavior is spawned or starts running. <a href="https://github.com/mrchantey/beet/blob/main/crates/beet_ecs/src/ecs_module/actions/lifecycle_actions.rs">Lifecycle actions</a> are generic and have a range of use cases.</p>
 <ul>
-<li><a href="./concepts.html#graph-roles">Graph Roles</a> are a way of categorizing actions.</li>
+<li><code>InsertOnRun&lt;T&gt;</code> - Inserts a component when this behavior starts running</li>
+<li><code>SetOnRun&lt;T&gt;</code> - Sets a component when this behavior starts running</li>
+<li><code>SetAgentOnRun&lt;T&gt;</code> - Sets an agent's component when this behavior starts running</li>
+<li><code>SetOnSpawn&lt;T&gt;</code> - Sets a component when this behavior spawns</li>
 </ul>
 <h2 id="ecsmodule"><a class="header" href="#ecsmodule"><code>EcsModule</code></a></h2>
-<p>The <a href="https://github.com/mrchantey/beet/blob/main/crates/beet_ecs/src/ecs_module/ecs_module.rs"><code>EcsModule</code></a> contains the basic actions and components required for most behaviors.</p>
+<p>The <a href="https://github.com/mrchantey/beet/blob/main/crates/beet_ecs/src/ecs_module/ecs_module.rs"><code>EcsModule</code></a> contains the basic actions required for most behaviors.</p>
+<p><em><a href="./concepts.html#graph-roles">Graph Roles</a> are a way of categorizing actions.</em></p>
 <div class="table-wrapper"><table><thead><tr><th>Name</th><th>Graph Role</th><th>Description</th></tr></thead><tbody>
 <tr><td><em>Lifecycle</em></td><td></td><td></td></tr>
 <tr><td><code>LogNameOnRun</code></td><td>Node</td><td>Logs the <code>Name</code> when the action is run.</td></tr>
@@ -197,7 +203,7 @@
 </tbody></table>
 </div>
 <h2 id="coremodule"><a class="header" href="#coremodule"><code>CoreModule</code></a></h2>
-<p>The <a href="https://github.com/mrchantey/beet/blob/main/crates/beet_core/src/core_module/core_module.rs"><code>CoreModule</code></a> contains more domain-specific actions, ie movement.</p>
+<p>The <a href="https://github.com/mrchantey/beet/blob/main/crates/beet_core/src/core_module/core_module.rs"><code>CoreModule</code></a> contains more domain-specific actions.</p>
 <div class="table-wrapper"><table><thead><tr><th>Name</th><th>Graph Role</th><th>Description</th></tr></thead><tbody>
 <tr><td><em>Movement</em></td><td></td><td></td></tr>
 <tr><td><code>Hover</code></td><td>Agent</td><td>Translates the agent up and down in a sine wave</td></tr>
@@ -216,7 +222,7 @@
 </tbody></table>
 </div>
 <h2 id="mlmodule"><a class="header" href="#mlmodule"><code>MlModule</code></a></h2>
-<p>The <a href="https://github.com/mrchantey/beet/blob/main/crates/beet_ml/src/ml_module/ml_module.rs"><code>MlModule</code></a> contains actions that use machine learning.</p>
+<p>The <a href="https://github.com/mrchantey/beet/blob/main/crates/beet_ml/src/ml_module/ml_module.rs"><code>MlModule</code></a> contains actions that use machine learning, using models from <a href="https://github.com/huggingface/candle">huggingface candle</a></p>
 <div class="table-wrapper"><table><thead><tr><th>Name</th><th>Graph Role</th><th>Description</th></tr></thead><tbody>
 <tr><td><code>SentenceScorer</code></td><td>Child</td><td>Updates the <code>Score</code> of each child based on the similarity of its <code>Sentence</code> with the agent, for use with <code>ScoreSelector</code></td></tr>
 </tbody></table>
