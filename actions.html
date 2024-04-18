@@ -181,28 +181,38 @@
 <h2 id="ecsmodule"><a class="header" href="#ecsmodule"><code>EcsModule</code></a></h2>
 <p>The <a href="https://github.com/mrchantey/beet/blob/main/crates/beet_ecs/src/ecs_module/ecs_module.rs"><code>EcsModule</code></a> contains the basic actions and components required for most behaviors.</p>
 <div class="table-wrapper"><table><thead><tr><th>Name</th><th>Graph Role</th><th>Description</th></tr></thead><tbody>
-<tr><td><code>EmptyAction</code></td><td>Node</td><td>Does what it says on the tin, useful for tests</td></tr>
-<tr><td><code>Repeat</code></td><td>Node</td><td>Reattaches the <code>Running</code> component whenever it is removed.</td></tr>
+<tr><td><em>Lifecycle</em></td><td></td><td></td></tr>
+<tr><td><code>LogNameOnRun</code></td><td>Node</td><td>Logs the <code>Name</code> when the action is run.</td></tr>
+<tr><td><code>LogOnRun</code></td><td>Node</td><td>Logs a message when the action is run.</td></tr>
 <tr><td><code>InsertInDuration&lt;RunResult&gt;</code></td><td>Node</td><td>Adds a <code>RunResult</code> after a given duration.</td></tr>
-<tr><td><code>SetOnSpawn&lt;Score&gt;</code></td><td>Node</td><td>Sets the score to a constant value when this behavior is spawned</td></tr>
 <tr><td><code>InsertOnRun&lt;RunResult&gt;</code></td><td>Node</td><td>Immediately succeed or fail when this behavior runs</td></tr>
-<tr><td><code>SequenceSelector</code></td><td>Child</td><td>Run children in sequence until one fails</td></tr>
+<tr><td><code>Repeat</code></td><td>Node</td><td>Reattaches the <code>Running</code> component whenever it is removed.</td></tr>
+<tr><td><code>SetOnSpawn&lt;Score&gt;</code></td><td>Node</td><td>Sets the score to a constant value when this behavior is spawned</td></tr>
+<tr><td><em>Selectors</em></td><td></td><td></td></tr>
 <tr><td><code>FallbackSelector</code></td><td>Child</td><td>Run children in sequence until one succeeds</td></tr>
+<tr><td><code>SequenceSelector</code></td><td>Child</td><td>Run children in sequence until one fails</td></tr>
 <tr><td><code>ScoreSelector</code></td><td>Child</td><td>Run the child with the highest score</td></tr>
+<tr><td><em>Utility</em></td><td></td><td></td></tr>
+<tr><td><code>EmptyAction</code></td><td>Node</td><td>Does what it says on the tin, useful for tests</td></tr>
 </tbody></table>
 </div>
 <h2 id="coremodule"><a class="header" href="#coremodule"><code>CoreModule</code></a></h2>
 <p>The <a href="https://github.com/mrchantey/beet/blob/main/crates/beet_core/src/core_module/core_module.rs"><code>CoreModule</code></a> contains more domain-specific actions, ie movement.</p>
 <div class="table-wrapper"><table><thead><tr><th>Name</th><th>Graph Role</th><th>Description</th></tr></thead><tbody>
-<tr><td><code>Hover</code></td><td>Agent</td><td>Translate the agent up and down in a sine wave</td></tr>
-<tr><td><code>Translate</code></td><td>Agent</td><td>Apply constant translation</td></tr>
-<tr><td><code>SetAgentOnRun&lt;Velocity&gt;</code></td><td>Agent</td><td>Set the <code>Velocity</code> of an agent on run</td></tr>
+<tr><td><em>Movement</em></td><td></td><td></td></tr>
+<tr><td><code>Hover</code></td><td>Agent</td><td>Translates the agent up and down in a sine wave</td></tr>
+<tr><td><code>Translate</code></td><td>Agent</td><td>Applies constant translation</td></tr>
+<tr><td><code>SetAgentOnRun&lt;Velocity&gt;</code></td><td>Agent</td><td>Sets the <code>Velocity</code> of an agent on run</td></tr>
+<tr><td><em>Steering</em></td><td></td><td></td></tr>
 <tr><td><code>Seek</code></td><td>Agent</td><td>Go to the agent's <code>SteerTarget</code> with an optional <code>ArriveRadius</code></td></tr>
 <tr><td><code>Wander</code></td><td>Agent</td><td>Somewhat cohesive random walk</td></tr>
 <tr><td><code>SucceedOnArrive</code></td><td>Agent</td><td>Succeeds when the agent arrives at the <code>SteerTarget</code></td></tr>
 <tr><td><code>FindSteerTarget</code></td><td>Agent</td><td>Sets the <code>SteerTarget</code> when an entity with the given name is nearby.</td></tr>
 <tr><td><code>ScoreSteerTarget</code></td><td>Node</td><td>Adjusts the <code>Score</code> based on distance to the <code>SteerTarget</code></td></tr>
-<tr><td><code>DespawnSteerTarget</code></td><td>World</td><td>Immediately recursively despawns the <code>SteerTarget</code></td></tr>
+<tr><td><code>DespawnSteerTarget</code></td><td>World</td><td>Recursively despawns the <code>SteerTarget</code></td></tr>
+<tr><td><em>Robotics</em></td><td></td><td></td></tr>
+<tr><td><code>SetAgentOnRun&lt;DualMotorValue&gt;</code></td><td>Agent</td><td>Sets the <code>DualMotorValue</code> of an agent on run</td></tr>
+<tr><td><code>DepthSensorScorer</code></td><td>Node</td><td>Sets the [<code>Score</code>] based on the [<code>DepthSensor</code>] value</td></tr>
 </tbody></table>
 </div>
 <h2 id="mlmodule"><a class="header" href="#mlmodule"><code>MlModule</code></a></h2>

@@ -184,7 +184,7 @@
 </ul>
 <h2 id="features"><a class="header" href="#features">Features</a></h2>
 <h4 id="-multi-paradigm"><a class="header" href="#-multi-paradigm">🌈 Multi-paradigm</a></h4>
-<p>The flexibility of entity graphs allows us to mix-and-match techniques from different paradigms, ie behavior trees, utility selectors, LLMs, etc.</p>
+<p>Actions can be created for any paradigm, from behavior trees to llms and everything in between.</p>
 <h4 id="-modular-trees"><a class="header" href="#-modular-trees">🌳 Modular Trees</a></h4>
 <p>Behaviors are composable trees of entities and actions are reusable.</p>
 <h4 id="-ecosystem-friendly"><a class="header" href="#-ecosystem-friendly">🐦 Ecosystem friendly</a></h4>
@@ -193,8 +193,9 @@
 <p>Beet only depends on the lightweight architectural components of the bevy library, ie <code>bevy_ecs</code>, which allows it to target multi-core gaming rigs and tiny microcontrollers alike.</p>
 <h4 id="-epic-concurrency"><a class="header" href="#-epic-concurrency">🔥 Epic Concurrency</a></h4>
 <p>By default all actions are run in parallel systems. This means graph traversals occur on each update of the schedule, which makes unit testing, breakpoints etc a breeze, although it is not always desired, see <a href="index.html#multi-tick">drawbacks</a>.</p>
-<h4 id="-messageless-replication-wip"><a class="header" href="#-messageless-replication-wip">🌐 Messageless replication (wip)</a></h4>
-<p>Work can be distributed across environments through world replication. An agent may run some actions in a constrained environment and others in a remote server.</p>
+<!-- #### 🌐 Zero-config replication
+
+Work can be distributed across environments through world replication. An agent may run some actions in a constrained environment and others in a remote server. -->
 <h2 id="quickstart"><a class="header" href="#quickstart">Quickstart</a></h2>
 <pre><pre class="playground"><code class="language-rust">use beet::prelude::*;
 use bevy::prelude::*;
@@ -263,8 +264,8 @@ World
 5 - Selector succeeds, all done
 </code></pre>
 <h2 id="drawbacks"><a class="header" href="#drawbacks">Drawbacks</a></h2>
-<h4 id="indirection"><a class="header" href="#indirection">Indirection</a></h4>
-<p>Agents, behaviors and children are seperate entities, which is a bit of an ergonomic painpoint. Its my hope this will be helped by the introduction of <a href="https://github.com/bevyengine/bevy/issues/3742">Entity Relations</a>.</p>
+<h4 id="lots-of-relations"><a class="header" href="#lots-of-relations">Lots of Relations</a></h4>
+<p>Agents, behaviors and children are seperate entities, which can be an ergonomic painpoint. Hopefully this will be addressed by the introduction of <a href="https://github.com/bevyengine/bevy/issues/3742">Entity Relations</a>.</p>
 <h4 id="tick-traversal"><a class="header" href="#tick-traversal">Tick Traversal</a></h4>
 <p>By default graph traversals are handled in the next tick which is fine for most cases, but if frame perfect traversals are required it will need to be done manually. I can think of a few workarounds:</p>
 <ul>
@@ -319,28 +320,38 @@ Generic <a href="https://github.com/mrchantey/beet/blob/main/crates/beet_ecs/src
 <h2 id="ecsmodule"><a class="header" href="#ecsmodule"><code>EcsModule</code></a></h2>
 <p>The <a href="https://github.com/mrchantey/beet/blob/main/crates/beet_ecs/src/ecs_module/ecs_module.rs"><code>EcsModule</code></a> contains the basic actions and components required for most behaviors.</p>
 <div class="table-wrapper"><table><thead><tr><th>Name</th><th>Graph Role</th><th>Description</th></tr></thead><tbody>
-<tr><td><code>EmptyAction</code></td><td>Node</td><td>Does what it says on the tin, useful for tests</td></tr>
-<tr><td><code>Repeat</code></td><td>Node</td><td>Reattaches the <code>Running</code> component whenever it is removed.</td></tr>
+<tr><td><em>Lifecycle</em></td><td></td><td></td></tr>
+<tr><td><code>LogNameOnRun</code></td><td>Node</td><td>Logs the <code>Name</code> when the action is run.</td></tr>
+<tr><td><code>LogOnRun</code></td><td>Node</td><td>Logs a message when the action is run.</td></tr>
 <tr><td><code>InsertInDuration&lt;RunResult&gt;</code></td><td>Node</td><td>Adds a <code>RunResult</code> after a given duration.</td></tr>
-<tr><td><code>SetOnSpawn&lt;Score&gt;</code></td><td>Node</td><td>Sets the score to a constant value when this behavior is spawned</td></tr>
 <tr><td><code>InsertOnRun&lt;RunResult&gt;</code></td><td>Node</td><td>Immediately succeed or fail when this behavior runs</td></tr>
-<tr><td><code>SequenceSelector</code></td><td>Child</td><td>Run children in sequence until one fails</td></tr>
+<tr><td><code>Repeat</code></td><td>Node</td><td>Reattaches the <code>Running</code> component whenever it is removed.</td></tr>
+<tr><td><code>SetOnSpawn&lt;Score&gt;</code></td><td>Node</td><td>Sets the score to a constant value when this behavior is spawned</td></tr>
+<tr><td><em>Selectors</em></td><td></td><td></td></tr>
 <tr><td><code>FallbackSelector</code></td><td>Child</td><td>Run children in sequence until one succeeds</td></tr>
+<tr><td><code>SequenceSelector</code></td><td>Child</td><td>Run children in sequence until one fails</td></tr>
 <tr><td><code>ScoreSelector</code></td><td>Child</td><td>Run the child with the highest score</td></tr>
+<tr><td><em>Utility</em></td><td></td><td></td></tr>
+<tr><td><code>EmptyAction</code></td><td>Node</td><td>Does what it says on the tin, useful for tests</td></tr>
 </tbody></table>
 </div>
 <h2 id="coremodule"><a class="header" href="#coremodule"><code>CoreModule</code></a></h2>
 <p>The <a href="https://github.com/mrchantey/beet/blob/main/crates/beet_core/src/core_module/core_module.rs"><code>CoreModule</code></a> contains more domain-specific actions, ie movement.</p>
 <div class="table-wrapper"><table><thead><tr><th>Name</th><th>Graph Role</th><th>Description</th></tr></thead><tbody>
-<tr><td><code>Hover</code></td><td>Agent</td><td>Translate the agent up and down in a sine wave</td></tr>
-<tr><td><code>Translate</code></td><td>Agent</td><td>Apply constant translation</td></tr>
-<tr><td><code>SetAgentOnRun&lt;Velocity&gt;</code></td><td>Agent</td><td>Set the <code>Velocity</code> of an agent on run</td></tr>
+<tr><td><em>Movement</em></td><td></td><td></td></tr>
+<tr><td><code>Hover</code></td><td>Agent</td><td>Translates the agent up and down in a sine wave</td></tr>
+<tr><td><code>Translate</code></td><td>Agent</td><td>Applies constant translation</td></tr>
+<tr><td><code>SetAgentOnRun&lt;Velocity&gt;</code></td><td>Agent</td><td>Sets the <code>Velocity</code> of an agent on run</td></tr>
+<tr><td><em>Steering</em></td><td></td><td></td></tr>
 <tr><td><code>Seek</code></td><td>Agent</td><td>Go to the agent's <code>SteerTarget</code> with an optional <code>ArriveRadius</code></td></tr>
 <tr><td><code>Wander</code></td><td>Agent</td><td>Somewhat cohesive random walk</td></tr>
 <tr><td><code>SucceedOnArrive</code></td><td>Agent</td><td>Succeeds when the agent arrives at the <code>SteerTarget</code></td></tr>
 <tr><td><code>FindSteerTarget</code></td><td>Agent</td><td>Sets the <code>SteerTarget</code> when an entity with the given name is nearby.</td></tr>
 <tr><td><code>ScoreSteerTarget</code></td><td>Node</td><td>Adjusts the <code>Score</code> based on distance to the <code>SteerTarget</code></td></tr>
-<tr><td><code>DespawnSteerTarget</code></td><td>World</td><td>Immediately recursively despawns the <code>SteerTarget</code></td></tr>
+<tr><td><code>DespawnSteerTarget</code></td><td>World</td><td>Recursively despawns the <code>SteerTarget</code></td></tr>
+<tr><td><em>Robotics</em></td><td></td><td></td></tr>
+<tr><td><code>SetAgentOnRun&lt;DualMotorValue&gt;</code></td><td>Agent</td><td>Sets the <code>DualMotorValue</code> of an agent on run</td></tr>
+<tr><td><code>DepthSensorScorer</code></td><td>Node</td><td>Sets the [<code>Score</code>] based on the [<code>DepthSensor</code>] value</td></tr>
 </tbody></table>
 </div>
 <h2 id="mlmodule"><a class="header" href="#mlmodule"><code>MlModule</code></a></h2>
