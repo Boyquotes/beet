@@ -85,7 +85,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Beet</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="concepts.html"><strong aria-hidden="true">1.1.</strong> Concepts</a></li><li class="chapter-item expanded "><a href="actions.html"><strong aria-hidden="true">1.2.</strong> Actions</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="misc/roadmap.html">Roadmap</a></li><li class="chapter-item expanded affix "><a href="misc/resources.html">Resources</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Beet</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="concepts.html"><strong aria-hidden="true">1.1.</strong> Concepts</a></li><li class="chapter-item expanded "><a href="actions.html"><strong aria-hidden="true">1.2.</strong> Actions</a></li><li class="chapter-item expanded "><a href="robotics.html"><strong aria-hidden="true">1.3.</strong> Robotics</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="misc/roadmap.html">Roadmap</a></li><li class="chapter-item expanded affix "><a href="misc/resources.html">Resources</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -175,12 +175,13 @@
 <blockquote>
 <p>This library has a broad scope and is largely incomplete, contributions are very welcome.</p>
 </blockquote>
-<p>Beet is a modular behavior library for games and robotics.</p>
+<p>Beet is a very flexible behavior library for games and robotics.</p>
 <p>It is built with <code>bevy</code> and uses entities to represent behaviors, connecting them through the parent-child relationship. This approach feels familiar and allows for high levels of modularity, just like scene graphs (in fact behaviors <em>are</em> scene graphs).</p>
 <h2 id="quick-links"><a class="header" href="#quick-links">Quick Links</a></h2>
 <ul>
 <li><a href="./concepts.html">Concepts</a></li>
 <li><a href="./actions.html">Actions</a></li>
+<li><a href="./robotics.html">Robotics</a></li>
 </ul>
 <h2 id="features"><a class="header" href="#features">Features</a></h2>
 <h4 id="-multi-paradigm"><a class="header" href="#-multi-paradigm">🌈 Multi-paradigm</a></h4>
@@ -190,7 +191,7 @@
 <h4 id="-ecosystem-friendly"><a class="header" href="#-ecosystem-friendly">🐦 Ecosystem friendly</a></h4>
 <p>All aspects of the library are simple components and systems, which means no blackboard and easy integration with existing bevy tooling.</p>
 <h4 id="-target-anything"><a class="header" href="#-target-anything">🎯 Target Anything</a></h4>
-<p>Beet only depends on the lightweight architectural components of the bevy library, ie <code>bevy_ecs</code>, which allows it to target multi-core gaming rigs and tiny microcontrollers alike.</p>
+<p>Beet only depends on the lightweight architectural components of the bevy library, ie <code>bevy_ecs</code>, making it suitable for powerful gaming rigs and tiny microcontrollers alike.</p>
 <h4 id="-epic-concurrency"><a class="header" href="#-epic-concurrency">🔥 Epic Concurrency</a></h4>
 <p>By default all actions are run in parallel systems. This means graph traversals occur on each update of the schedule, which makes unit testing, breakpoints etc a breeze, although it is not always desired, see <a href="index.html#multi-tick">drawbacks</a>.</p>
 <!-- #### 🌐 Zero-config replication
@@ -359,16 +360,32 @@ Generic <a href="https://github.com/mrchantey/beet/blob/main/crates/beet_ecs/src
 <div class="table-wrapper"><table><thead><tr><th>Name</th><th>Graph Role</th><th>Description</th></tr></thead><tbody>
 <tr><td><code>SentenceScorer</code></td><td>Child</td><td>Updates the <code>Score</code> of each child based on the similarity of its <code>Sentence</code> with the agent, for use with <code>ScoreSelector</code></td></tr>
 </tbody></table>
-</div><div style="break-before: page; page-break-before: always;"></div><h1 id="roadmap"><a class="header" href="#roadmap">Roadmap</a></h1>
+</div><div style="break-before: page; page-break-before: always;"></div><h1 id="robotics"><a class="header" href="#robotics">Robotics</a></h1>
+<p>Bevy is a remarkably modular engine. Because it seperates the underlying <code>bevy_ecs</code> crate from rendering etc it can run on tiny microcontrollers like the ESP32.</p>
+<iframe width="1280" height="720" src="https://www.youtube.com/embed/R-q5iJ98X40" title="Bevy + Beet  + ESP32 Hello World" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<h2 id="but-why-use-a-game-engine"><a class="header" href="#but-why-use-a-game-engine">But why use a game engine?</a></h2>
+<p>Just because we <em>can</em> run bevy on a microntroller, should we? I think so and here's a few reasons why:</p>
+<ul>
+<li>Simulation: We get a simulation environment out of the box</li>
+<li>Ecosystem: Share and reuse libraries like netcode, navigation or behavior selection</li>
+<li>Animation: Bringing robotics tooling closer to skilled animators is an important step toward quality human interaction</li>
+<li>ECS beyond games: Its a really nice architectural pattern, and performance is also critical in robotics</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="roadmap"><a class="header" href="#roadmap">Roadmap</a></h1>
 <p>The scope for beet is very broad, so any ideas for priorities would be greatly appreciated.</p>
+<ul>
+<li>✅ we have at least a proof of concept</li>
+<li>🚧 we have some idea how it could work</li>
+<li>🤷 it'd be cool but haven't thought about it</li>
+</ul>
 <div class="table-wrapper"><table><thead><tr><th>Descrition</th><th>Status</th></tr></thead><tbody>
-<tr><td>Behavior Trees (sequence,fallback)</td><td>✅</td></tr>
+<tr><td>Behavior Trees (sequences etc)</td><td>✅</td></tr>
 <tr><td>Utility AI (score selectors)</td><td>✅</td></tr>
-<tr><td>Robotics (esp32 example)</td><td>🚧</td></tr>
+<tr><td>LLMs (sentence scorer)</td><td>✅</td></tr>
+<tr><td>Robotics (esp32 example)</td><td>✅</td></tr>
 <tr><td>Pathfinding/search (a* etc)</td><td>🚧</td></tr>
 <tr><td>State Trees (transitions)</td><td>🚧</td></tr>
-<tr><td>GOAP (tree generators)</td><td>🤷</td></tr>
-<tr><td>LLMs (prompt actions)</td><td>🤷</td></tr>
+<tr><td>GOAP (runtime tree generators)</td><td>🚧</td></tr>
 </tbody></table>
 </div><div style="break-before: page; page-break-before: always;"></div><h1 id="resources"><a class="header" href="#resources">Resources</a></h1>
 <p>Various resource on AI in games/robotics, architecture etc.</p>
